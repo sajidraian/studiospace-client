@@ -1,69 +1,240 @@
-import Image from "next/image";
+import FeaturedStudios from "@/components/home/FeaturedStudios";
+import Footer from "@/components/shared/Footer";
+import Navbar from "@/components/shared/Navbar";
+import HeroSlider from "@/components/home/HeroSlider";
+import {
+  ArrowRight,
+  Camera,
+  Mic2,
+  Music,
+  Palette,
+  Film,
+  ShieldCheck,
+  Search,
+  CalendarCheck,
+  Sparkles,
+} from "lucide-react";
+import Link from "next/link";
+
+const categories = [
+  { name: "Photo Studios", icon: Camera, count: "120+ Spaces" },
+  { name: "Film Stages", icon: Film, count: "85+ Spaces" },
+  { name: "Podcast Rooms", icon: Mic2, count: "64+ Spaces" },
+  { name: "Music Suites", icon: Music, count: "92+ Spaces" },
+  { name: "Art Workshops", icon: Palette, count: "48+ Spaces" },
+];
+
+const steps = [
+  {
+    number: "01",
+    title: "Discover Spaces",
+    description: "Explore unique creative studios that match your vision.",
+    icon: Search,
+  },
+  {
+    number: "02",
+    title: "Select Shoot Hours",
+    description: "Choose your preferred date and working hours.",
+    icon: CalendarCheck,
+  },
+  {
+    number: "03",
+    title: "Book Instantly",
+    description: "Reserve your favorite creative space with ease.",
+    icon: ShieldCheck,
+  },
+  {
+    number: "04",
+    title: "Create & Produce",
+    description: "Bring your creative ideas to life.",
+    icon: Sparkles,
+  },
+];
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+    <>
+      <Navbar />
+
+      <main className="bg-white text-gray-900 transition-colors duration-300 dark:bg-gray-950 dark:text-gray-100">
+
+        {/* Hero Section */}
+        <HeroSlider />
+
+        {/* Featured Studios */}
+        <FeaturedStudios />
+
+        {/* Categories */}
+        <section className="bg-white px-4 py-14 dark:bg-gray-950 sm:px-6 sm:py-20 lg:py-24">
+          <div className="mx-auto max-w-7xl">
+
+            <div className="mb-9 text-center sm:mb-12">
+              <p className="text-sm font-semibold tracking-wider text-violet-600">
+                EXPLORE SPACES
+              </p>
+
+              <h2 className="mt-3 text-2xl font-extrabold leading-tight text-gray-900 dark:text-white sm:text-3xl md:text-4xl">
+                Find Your Creative Environment
+              </h2>
+
+              <p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-gray-500 dark:text-gray-400 sm:text-base">
+                Discover the perfect space for your next project.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-5">
+              {categories.map((category) => {
+                const Icon = category.icon;
+
+                return (
+                  <Link
+                    href={`/studios?category=${encodeURIComponent(category.name)}`}
+                    key={category.name}
+                    className="group rounded-2xl border border-gray-200 bg-white p-5 transition hover:-translate-y-1 hover:border-violet-300 hover:shadow-xl sm:p-7 dark:border-gray-800 dark:bg-gray-900 dark:hover:border-violet-500"
+                  >
+                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-violet-100 text-violet-600 transition group-hover:bg-violet-600 group-hover:text-white sm:mb-6 sm:h-14 sm:w-14 sm:rounded-2xl dark:bg-violet-950 dark:text-violet-400 dark:group-hover:bg-violet-600 dark:group-hover:text-white">
+                      <Icon size={26} />
+                    </div>
+
+                    <h3 className="font-bold text-gray-900 dark:text-white">
+                      {category.name}
+                    </h3>
+
+                    <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                      {category.count}
+                    </p>
+
+                    <ArrowRight
+                      className="mt-4 text-violet-600 transition group-hover:translate-x-2 sm:mt-5"
+                      size={20}
+                    />
+                  </Link>
+                );
+              })}
+            </div>
+
+          </div>
+        </section>
+
+        {/* How It Works */}
+        <section
+          id="how-it-works"
+          className="bg-gray-50 px-4 py-14 dark:bg-gray-900 sm:px-6 sm:py-20 lg:py-24"
+        >
+          <div className="mx-auto max-w-7xl">
+
+            <div className="mb-9 text-center sm:mb-14">
+              <p className="text-sm font-semibold tracking-wider text-violet-600">
+                SIMPLE PROCESS
+              </p>
+
+              <h2 className="mt-3 text-2xl font-extrabold text-gray-900 dark:text-white sm:text-3xl md:text-4xl">
+                How StudioSpace Works
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4 lg:gap-8">
+              {steps.map((step) => {
+                const Icon = step.icon;
+
+                return (
+                  <div
+                    key={step.number}
+                    className="rounded-2xl border border-transparent bg-white p-5 shadow-sm transition hover:shadow-lg sm:p-7 dark:border-gray-800 dark:bg-gray-950"
+                  >
+                    <div className="flex items-center justify-between">
+                      <Icon size={30} className="text-violet-600" />
+
+                      <span className="text-3xl font-extrabold text-gray-200 dark:text-gray-700">
+                        {step.number}
+                      </span>
+                    </div>
+
+                    <h3 className="mt-6 text-lg font-bold text-gray-900 sm:mt-8 sm:text-xl dark:text-white">
+                      {step.title}
+                    </h3>
+
+                    <p className="mt-3 text-sm leading-7 text-gray-500 dark:text-gray-400">
+                      {step.description}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+
+          </div>
+        </section>
+
+        {/* Host Guarantee */}
+        <section
+          id="about"
+          className="bg-white px-4 py-14 dark:bg-gray-950 sm:px-6 sm:py-20 lg:py-24"
+        >
+          <div className="mx-auto grid max-w-7xl items-center gap-9 sm:gap-12 md:grid-cols-2">
+
+            {/* Content */}
+            <div>
+              <p className="text-sm font-semibold tracking-wider text-violet-600">
+                BUILT FOR CREATORS
+              </p>
+
+              <h2 className="mt-4 text-2xl font-extrabold leading-tight text-gray-900 sm:text-3xl md:text-4xl lg:text-5xl dark:text-white">
+                Create With Confidence.
+                <span className="text-violet-600">
+                  {" "}We Have Your Back.
+                </span>
+              </h2>
+
+              <p className="mt-5 text-sm leading-7 text-gray-500 sm:mt-6 sm:text-base sm:leading-8 dark:text-gray-400">
+                StudioSpace connects creative professionals with trusted
+                studio hosts. We make discovering and booking creative
+                spaces simple and convenient.
+              </p>
+
+              <div className="mt-6 space-y-4 sm:mt-8 sm:space-y-5">
+                {[
+                  "Verified host profiles",
+                  "Transparent pricing",
+                  "Equipment and space safety",
+                  "Dedicated creator support",
+                ].map((item) => (
+                  <div key={item} className="flex items-center gap-3">
+                    <ShieldCheck
+                      size={21}
+                      className="shrink-0 text-violet-600"
+                    />
+
+                    <span className="text-sm font-semibold text-gray-800 sm:text-base dark:text-gray-200">
+                      {item}
+                    </span>
+                  </div>
+                ))}
+              </div>
+
+              <Link
+                href="/studios"
+                className="mt-7 inline-flex items-center justify-center gap-2 rounded-full bg-violet-600 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-violet-700 sm:mt-9 sm:px-7 sm:py-4 sm:text-base"
+              >
+                Start Exploring
+                <ArrowRight size={18} />
+              </Link>
+            </div>
+
+            {/* Image */}
+            <div className="overflow-hidden rounded-2xl sm:rounded-3xl">
+              <img
+                src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=1000"
+                alt="Creative workspace interior"
+                className="h-64 w-full object-cover sm:h-80 md:h-[380px] lg:h-[450px]"
+              />
+            </div>
+
+          </div>
+        </section>
+
       </main>
-    </div>
+
+      <Footer />
+    </>
   );
 }
