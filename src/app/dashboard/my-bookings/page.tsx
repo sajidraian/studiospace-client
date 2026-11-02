@@ -390,24 +390,30 @@ export default function MyBookingsPage() {
               title: "My Bookings",
               value: bookings.length,
               icon: ClipboardList,
-              color: "bg-violet-100 text-violet-600 dark:bg-violet-900/40 dark:text-violet-300",
+              color:
+                "bg-violet-100 text-violet-600 dark:bg-violet-900/40 dark:text-violet-300",
             },
             {
               title: "Studio Requests",
               value: ownerBookings.length,
               icon: Building2,
-              color: "bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-300",
+              color:
+                "bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-300",
             },
             {
               title: "Pending Requests",
               value: ownerBookings.filter((b) => b.status === "Pending").length,
               icon: Clock,
-              color: "bg-amber-100 text-amber-600 dark:bg-amber-900/40 dark:text-amber-300",
+              color:
+                "bg-amber-100 text-amber-600 dark:bg-amber-900/40 dark:text-amber-300",
             },
           ].map((item) => {
             const Icon = item.icon;
             return (
-              <div key={item.title} className={`${cardClass} flex items-center gap-3 p-4`}>
+              <div
+                key={item.title}
+                className={`${cardClass} flex items-center gap-3 p-4`}
+              >
                 <div className={`rounded-lg p-2.5 ${item.color}`}>
                   <Icon size={21} />
                 </div>
@@ -496,13 +502,19 @@ export default function MyBookingsPage() {
                             <h2 className={`truncate text-lg ${headingClass}`}>
                               {booking.studioTitle}
                             </h2>
-                            <p className={`mt-1 flex items-center gap-1.5 text-xs ${mutedClass}`}>
+                            <p
+                              className={`mt-1 flex items-center gap-1.5 text-xs ${mutedClass}`}
+                            >
                               <MapPin size={14} className="shrink-0" />
-                              <span className="truncate">{booking.studioLocation}</span>
+                              <span className="truncate">
+                                {booking.studioLocation}
+                              </span>
                             </p>
                           </div>
 
-                          <span className={`shrink-0 rounded-full px-3 py-1 text-[11px] font-bold ${getStatusStyle(booking.status)}`}>
+                          <span
+                            className={`shrink-0 rounded-full px-3 py-1 text-[11px] font-bold ${getStatusStyle(booking.status)}`}
+                          >
                             {booking.status}
                           </span>
                         </div>
@@ -540,9 +552,14 @@ export default function MyBookingsPage() {
                         {/* Price and Actions */}
                         <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-gray-100 pt-3 dark:border-gray-700">
                           <div>
-                            <p className={`text-[11px] ${mutedClass}`}>Total Price</p>
+                            <p className={`text-[11px] ${mutedClass}`}>
+                              Total Price
+                            </p>
                             <p className="text-lg font-extrabold text-violet-700 dark:text-violet-400">
-                              ৳{Number(booking.totalPrice).toLocaleString("en-BD")}
+                              ৳
+                              {Number(booking.totalPrice).toLocaleString(
+                                "en-BD"
+                              )}
                             </p>
                           </div>
 
@@ -553,7 +570,10 @@ export default function MyBookingsPage() {
                               className="inline-flex items-center gap-1.5 rounded-lg bg-violet-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-violet-700 disabled:opacity-60"
                             >
                               {downloadingId === booking._id ? (
-                                <Loader2 size={14} className="animate-spin" />
+                                <Loader2
+                                  size={14}
+                                  className="animate-spin"
+                                />
                               ) : (
                                 <Download size={14} />
                               )}
@@ -638,7 +658,9 @@ export default function MyBookingsPage() {
                             </p>
                           </div>
 
-                          <span className={`shrink-0 rounded-full px-3 py-1 text-[11px] font-bold ${getStatusStyle(booking.status)}`}>
+                          <span
+                            className={`shrink-0 rounded-full px-3 py-1 text-[11px] font-bold ${getStatusStyle(booking.status)}`}
+                          >
                             {booking.status}
                           </span>
                         </div>
@@ -704,18 +726,26 @@ export default function MyBookingsPage() {
                               Total Price
                             </p>
                             <p className="text-lg font-extrabold text-violet-700 dark:text-violet-400">
-                              ৳{Number(booking.totalPrice).toLocaleString("en-BD")}
+                              ৳
+                              {Number(booking.totalPrice).toLocaleString(
+                                "en-BD"
+                              )}
                             </p>
                           </div>
 
                           {booking.status === "Pending" ? (
                             <button
-                              onClick={() => handleConfirmBooking(booking._id)}
+                              onClick={() =>
+                                handleConfirmBooking(booking._id)
+                              }
                               disabled={confirmingId !== null}
                               className="inline-flex items-center gap-1.5 rounded-lg bg-green-600 px-4 py-2.5 text-xs font-semibold text-white transition hover:bg-green-700 disabled:opacity-60"
                             >
                               {confirmingId === booking._id ? (
-                                <Loader2 size={15} className="animate-spin" />
+                                <Loader2
+                                  size={15}
+                                  className="animate-spin"
+                                />
                               ) : (
                                 <CheckCircle2 size={15} />
                               )}
@@ -741,19 +771,34 @@ export default function MyBookingsPage() {
         )}
       </div>
 
-      {/* Cancel Confirmation Modal */}
+      {/* Accessible Cancel Confirmation Modal */}
       {selectedBooking && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4">
-          <div className="w-full max-w-sm rounded-2xl bg-white p-5 shadow-2xl dark:border dark:border-gray-700 dark:bg-gray-800">
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4"
+          role="presentation"
+        >
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="cancel-modal-title"
+            aria-describedby="cancel-modal-description"
+            className="w-full max-w-sm rounded-2xl bg-white p-5 shadow-2xl dark:border dark:border-gray-700 dark:bg-gray-800"
+          >
             <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/40">
               <XCircle className="h-6 w-6 text-red-600 dark:text-red-400" />
             </div>
 
-            <h3 className="text-center text-lg font-bold text-gray-900 dark:text-white">
+            <h3
+              id="cancel-modal-title"
+              className="text-center text-lg font-bold text-gray-900 dark:text-white"
+            >
               Cancel Booking?
             </h3>
 
-            <p className="mt-2 text-center text-sm leading-5 text-gray-500 dark:text-gray-300">
+            <p
+              id="cancel-modal-description"
+              className="mt-2 text-center text-sm leading-5 text-gray-500 dark:text-gray-300"
+            >
               Are you sure you want to cancel your booking for{" "}
               <strong className="text-gray-800 dark:text-white">
                 {selectedBooking.studioTitle}
