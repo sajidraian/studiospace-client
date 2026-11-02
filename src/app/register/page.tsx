@@ -1,10 +1,9 @@
-
 "use client";
 
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Aperture, Eye, EyeOff } from "lucide-react";
+import { Aperture, Eye, EyeOff, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
 
@@ -13,6 +12,7 @@ export default function RegisterPage() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -57,7 +57,6 @@ export default function RegisterPage() {
     try {
       setLoading(true);
 
-      // Create account using Better Auth
       const { error } = await authClient.signUp.email({
         name,
         email,
@@ -97,9 +96,26 @@ export default function RegisterPage() {
     }
   };
 
+  // Google Registration
+  const handleGoogleRegister = async () => {
+    setGoogleLoading(true);
+
+    try {
+      await authClient.signIn.social({
+        provider: "google",
+        callbackURL: "/",
+        errorCallbackURL: "/register",
+      });
+    } catch (error) {
+      console.error("Google registration error:", error);
+      toast.error("Google registration failed. Please try again.");
+      setGoogleLoading(false);
+    }
+  };
+
   return (
     <main className="flex min-h-screen items-center justify-center bg-[#f8fafc] px-4 py-12">
-      <div className="w-full max-w-md rounded-2xl border border-gray-100 bg-white p-8 shadow-lg">
+      <div className="w-full max-w-md rounded-2xl border border-gray-100 bg-white p-6 shadow-lg sm:p-8">
         <Link
           href="/"
           className="mb-8 flex items-center justify-center gap-2"
@@ -114,17 +130,73 @@ export default function RegisterPage() {
           <h1 className="text-3xl font-bold text-gray-900">
             Create Account
           </h1>
+
           <p className="mt-2 text-sm text-gray-500">
             Join StudioSpace and discover creative spaces.
           </p>
         </div>
 
+        {/* Google Register */}
+        <button
+          type="button"
+          onClick={handleGoogleRegister}
+          disabled={googleLoading || loading}
+          className="flex w-full items-center justify-center gap-3 rounded-lg border border-gray-300 py-3 font-semibold text-gray-700 transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          {googleLoading ? (
+            <Loader2 size={20} className="animate-spin" />
+          ) : (
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 48 48"
+              aria-hidden="true"
+            >
+              <path
+                fill="#4285F4"
+                d="M43.6 24.5c0-1.4-.1-2.8-.4-4.1H24v7.8h11a9.4 9.4 0 0 1-4.1 6.2v5h6.6c3.9-3.6 6.1-8.8 6.1-14.9Z"
+              />
+              <path
+                fill="#34A853"
+                d="M24 44c5.5 0 10.1-1.8 13.5-4.9l-6.6-5c-1.8 1.2-4.1 1.9-6.9 1.9-5.3 0-9.8-3.6-11.4-8.4H5.8v5.2A20 20 0 0 0 24 44Z"
+              />
+              <path
+                fill="#FBBC05"
+                d="M12.6 27.6a12 12 0 0 1 0-7.2v-5.2H5.8a20 20 0 0 0 0 17.6l6.8-5.2Z"
+              />
+              <path
+                fill="#EA4335"
+                d="M24 12c3 0 5.7 1 7.8 3.1l5.8-5.8C34.1 5.9 29.5 4 24 4A20 20 0 0 0 5.8 15.2l6.8 5.2C14.2 15.6 18.7 12 24 12Z"
+              />
+            </svg>
+          )}
+
+          {googleLoading
+            ? "Connecting to Google..."
+            : "Continue with Google"}
+        </button>
+
+        {/* Divider */}
+        <div className="my-6 flex items-center gap-4">
+          <div className="h-px flex-1 bg-gray-200" />
+          <span className="text-xs font-medium text-gray-400">
+            OR REGISTER WITH EMAIL
+          </span>
+          <div className="h-px flex-1 bg-gray-200" />
+        </div>
+
+        {/* Email Registration */}
         <form onSubmit={handleRegister} className="space-y-4">
           <div>
-            <label className="mb-1 block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="name"
+              className="mb-1 block text-sm font-medium text-gray-700"
+            >
               Full Name
             </label>
+
             <input
+              id="name"
               type="text"
               name="name"
               value={formData.name}
@@ -136,10 +208,15 @@ export default function RegisterPage() {
           </div>
 
           <div>
-            <label className="mb-1 block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="email"
+              className="mb-1 block text-sm font-medium text-gray-700"
+            >
               Email Address
             </label>
+
             <input
+              id="email"
               type="email"
               name="email"
               value={formData.email}
@@ -151,10 +228,15 @@ export default function RegisterPage() {
           </div>
 
           <div>
-            <label className="mb-1 block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="image"
+              className="mb-1 block text-sm font-medium text-gray-700"
+            >
               Profile Photo URL
             </label>
+
             <input
+              id="image"
               type="url"
               name="image"
               value={formData.image}
@@ -165,12 +247,16 @@ export default function RegisterPage() {
           </div>
 
           <div>
-            <label className="mb-1 block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="password"
+              className="mb-1 block text-sm font-medium text-gray-700"
+            >
               Password
             </label>
 
             <div className="relative">
               <input
+                id="password"
                 type={showPassword ? "text" : "password"}
                 name="password"
                 value={formData.password}
@@ -200,10 +286,15 @@ export default function RegisterPage() {
           </div>
 
           <div>
-            <label className="mb-1 block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="confirmPassword"
+              className="mb-1 block text-sm font-medium text-gray-700"
+            >
               Confirm Password
             </label>
+
             <input
+              id="confirmPassword"
               type="password"
               name="confirmPassword"
               value={formData.confirmPassword}
@@ -216,7 +307,7 @@ export default function RegisterPage() {
 
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || googleLoading}
             className="w-full rounded-lg bg-indigo-600 py-3 font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {loading ? "Creating Account..." : "Create Account"}
@@ -236,4 +327,3 @@ export default function RegisterPage() {
     </main>
   );
 }
-

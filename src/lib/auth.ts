@@ -20,6 +20,23 @@ export const auth = betterAuth({
     minPasswordLength: 6,
   },
 
+  // Google Login Configuration
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    },
+  },
+
+  // Allow linking existing accounts with Google
+ account: {
+  accountLinking: {
+    enabled: true,
+    trustedProviders: ["google"],
+    requireLocalEmailVerified: false,
+  },
+},
+
   plugins: [
     jwt({
       jwt: {
