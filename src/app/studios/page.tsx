@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import {
   Search,
   MapPin,
@@ -31,7 +32,10 @@ const inputStyles =
 
 const ITEMS_PER_PAGE = 9;
 
-export default function StudiosPage() {
+function StudiosContent() {
+  const searchParams = useSearchParams();
+  const selectedCategory = searchParams.get("category");
+
   const [studios, setStudios] = useState<Studio[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -41,6 +45,15 @@ export default function StudiosPage() {
   const [location, setLocation] = useState("All Locations");
   const [maxPrice, setMaxPrice] = useState("5000");
   const [currentPage, setCurrentPage] = useState(1);
+
+  // Apply category from URL
+  useEffect(() => {
+    if (selectedCategory) {
+      setCategory(selectedCategory);
+    } else {
+      setCategory("All Categories");
+    }
+  }, [selectedCategory]);
 
   // Fetch Studios from MongoDB
   useEffect(() => {
@@ -508,5 +521,19 @@ export default function StudiosPage() {
 
       <Footer />
     </>
+  );
+}
+
+export default function StudiosPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="py-20 text-center">
+          Loading studios...
+        </div>
+      }
+    >
+      <StudiosContent />
+    </Suspense>
   );
 }
