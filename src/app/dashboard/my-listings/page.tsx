@@ -245,7 +245,7 @@ export default function MyListingsPage() {
                 className="min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg dark:border-gray-800 dark:bg-gray-900"
               >
                 {/* Image */}
-                <div className="relative h-48 bg-slate-100 dark:bg-gray-800 sm:h-52">
+                <div className="relative h-48 bg-slate-100 dark:bg-gray-800">
                   {studio.image ? (
                     <img
                       src={studio.image}
@@ -332,13 +332,18 @@ export default function MyListingsPage() {
         )}
       </div>
 
-      {/* Custom Delete Confirmation Modal */}
+      {/* Accessible Delete Confirmation Modal */}
       {showDeleteModal && selectedStudio && (
         <div
           className="fixed inset-0 z-[100] flex items-center justify-center overflow-y-auto bg-slate-950/60 px-3 py-5 backdrop-blur-sm sm:px-4"
           onClick={closeDeleteModal}
+          role="presentation"
         >
           <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="delete-modal-title"
+            aria-describedby="delete-modal-description"
             className="relative my-auto w-full max-w-md rounded-2xl bg-white p-5 shadow-2xl transition-colors dark:border dark:border-gray-700 dark:bg-gray-900 sm:rounded-3xl sm:p-7"
             onClick={(event) => event.stopPropagation()}
           >
@@ -359,11 +364,17 @@ export default function MyListingsPage() {
 
             {/* Modal Content */}
             <div className="mt-5 text-center">
-              <h2 className="text-xl font-bold text-slate-900 dark:text-white sm:text-2xl">
+              <h2
+                id="delete-modal-title"
+                className="text-xl font-bold text-slate-900 dark:text-white sm:text-2xl"
+              >
                 Delete Studio?
               </h2>
 
-              <p className="mt-3 break-words text-sm leading-6 text-slate-500 dark:text-gray-400">
+              <p
+                id="delete-modal-description"
+                className="mt-3 break-words text-sm leading-6 text-slate-500 dark:text-gray-400"
+              >
                 Are you sure you want to delete{" "}
                 <span className="font-semibold text-slate-800 dark:text-gray-200">
                   {selectedStudio.title}
