@@ -9,9 +9,50 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "StudioSpace | Creative Spaces for Creators",
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
+  ),
+
+  title: {
+    default: "StudioSpace | Creative Spaces for Creators",
+    template: "%s | StudioSpace",
+  },
+
   description:
-    "Discover and book inspiring creative studios with StudioSpace.",
+    "Discover, explore, and book inspiring photography studios, music spaces, podcast rooms, and creative production studios with StudioSpace.",
+
+  keywords: [
+    "StudioSpace",
+    "Creative Studio Rental",
+    "Photography Studio",
+    "Podcast Studio",
+    "Music Studio",
+    "Production Studio",
+    "Studio Booking",
+  ],
+
+  applicationName: "StudioSpace",
+
+  openGraph: {
+    title: "StudioSpace | Creative Spaces for Creators",
+    description:
+      "Find and book the perfect creative workspace for your next project.",
+    siteName: "StudioSpace",
+    type: "website",
+    locale: "en_US",
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "StudioSpace | Creative Spaces for Creators",
+    description:
+      "Discover and book inspiring creative studios with StudioSpace.",
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
