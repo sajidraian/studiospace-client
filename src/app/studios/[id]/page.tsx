@@ -291,7 +291,6 @@ export default function StudioDetailsPage() {
       <Navbar />
 
       <main className="min-h-screen overflow-hidden bg-[#faf9ff] text-gray-900 transition-colors duration-300 dark:bg-gray-950 dark:text-gray-100">
-
         {/* Breadcrumb */}
         <section className="mx-auto max-w-7xl px-4 pt-6 sm:px-6 sm:pt-10">
           <Link
@@ -339,7 +338,6 @@ export default function StudioDetailsPage() {
         {/* Studio Gallery */}
         <section className="mx-auto max-w-7xl px-4 sm:px-6">
           <div className="grid grid-cols-1 gap-3 sm:gap-4 md:grid-cols-3">
-
             {/* Main Image */}
             <button
               type="button"
@@ -439,9 +437,7 @@ export default function StudioDetailsPage() {
 
         {/* Main Details */}
         <section className="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-4 py-10 sm:px-6 sm:py-14 lg:grid-cols-3 lg:gap-10">
-
           <div className="min-w-0 space-y-8 sm:space-y-10 lg:col-span-2">
-
             {/* Overview */}
             <div>
               <h2 className="text-xl font-extrabold text-gray-900 dark:text-white sm:text-2xl">
@@ -592,13 +588,11 @@ export default function StudioDetailsPage() {
                 </p>
               </div>
             </div>
-
           </div>
 
           {/* Booking Card */}
           <aside className="min-w-0">
             <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-lg dark:border-gray-800 dark:bg-gray-900 sm:p-7 lg:sticky lg:top-28">
-
               <p className="text-sm text-gray-500 dark:text-gray-400">
                 Starting from
               </p>
@@ -611,7 +605,6 @@ export default function StudioDetailsPage() {
               </h2>
 
               <div className="my-5 space-y-4 border-y border-gray-100 py-5 text-sm text-gray-600 dark:border-gray-700 dark:text-gray-300 sm:my-6 sm:py-6">
-
                 <div className="flex items-center justify-between gap-3">
                   <span>Security Deposit</span>
                   <span className="font-bold text-gray-900 dark:text-white">
@@ -632,7 +625,6 @@ export default function StudioDetailsPage() {
                     {studio.category}
                   </span>
                 </div>
-
               </div>
 
               <button
@@ -666,10 +658,8 @@ export default function StudioDetailsPage() {
                 />
                 Secure Booking Experience
               </div>
-
             </div>
           </aside>
-
         </section>
       </main>
 
@@ -685,7 +675,6 @@ export default function StudioDetailsPage() {
             className="my-auto max-h-[92vh] w-full max-w-lg overflow-y-auto rounded-2xl bg-white p-4 shadow-2xl dark:border dark:border-gray-700 dark:bg-gray-900 sm:p-7"
             onClick={(e) => e.stopPropagation()}
           >
-
             <div className="mb-5 flex items-center justify-between gap-3 sm:mb-6">
               <div className="min-w-0">
                 <h2 className="text-xl font-extrabold text-gray-900 dark:text-white sm:text-2xl">
@@ -708,10 +697,12 @@ export default function StudioDetailsPage() {
             </div>
 
             <form onSubmit={handleBooking} className="space-y-4 sm:space-y-5">
-
               {/* Booking Date */}
               <div>
-                <label className="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-200">
+                <label
+                  htmlFor="bookingDate"
+                  className="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-200"
+                >
                   Booking Date
                 </label>
 
@@ -722,6 +713,7 @@ export default function StudioDetailsPage() {
                   />
 
                   <input
+                    id="bookingDate"
                     type="date"
                     min={new Date().toLocaleDateString("en-CA")}
                     value={bookingDate}
@@ -734,11 +726,15 @@ export default function StudioDetailsPage() {
 
               {/* Start Time */}
               <div>
-                <label className="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-200">
+                <label
+                  htmlFor="startTime"
+                  className="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-200"
+                >
                   Start Time
                 </label>
 
                 <input
+                  id="startTime"
                   type="time"
                   value={startTime}
                   onChange={(e) => setStartTime(e.target.value)}
@@ -749,11 +745,15 @@ export default function StudioDetailsPage() {
 
               {/* Duration */}
               <div>
-                <label className="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-200">
+                <label
+                  htmlFor="hours"
+                  className="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-200"
+                >
                   Booking Duration
                 </label>
 
                 <select
+                  id="hours"
                   value={hours}
                   onChange={(e) => setHours(e.target.value)}
                   className={inputStyles}
@@ -770,11 +770,15 @@ export default function StudioDetailsPage() {
 
               {/* Guests */}
               <div>
-                <label className="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-200">
+                <label
+                  htmlFor="guests"
+                  className="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-200"
+                >
                   Number of Guests
                 </label>
 
                 <input
+                  id="guests"
                   type="number"
                   min="1"
                   max={studio.maxCapacity}
@@ -791,11 +795,15 @@ export default function StudioDetailsPage() {
 
               {/* Notes */}
               <div>
-                <label className="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-200">
+                <label
+                  htmlFor="notes"
+                  className="mb-2 block text-sm font-semibold text-gray-700 dark:text-gray-200"
+                >
                   Additional Notes (Optional)
                 </label>
 
                 <textarea
+                  id="notes"
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   rows={3}
@@ -807,7 +815,6 @@ export default function StudioDetailsPage() {
 
               {/* Time Summary */}
               <div className="rounded-xl bg-gray-50 p-4 text-sm text-gray-600 dark:bg-gray-800 dark:text-gray-300">
-
                 <div className="flex justify-between gap-3">
                   <span>Start Time</span>
                   <span className="font-semibold text-gray-900 dark:text-white">
@@ -821,12 +828,10 @@ export default function StudioDetailsPage() {
                     {endTime || "Invalid time"}
                   </span>
                 </div>
-
               </div>
 
               {/* Price Summary */}
               <div className="rounded-xl bg-violet-50 p-4 dark:bg-violet-950/40 sm:p-5">
-
                 <div className="flex justify-between gap-3 text-sm text-gray-600 dark:text-gray-300">
                   <span>
                     ৳{studio.hourlyRate} × {hours} hours
@@ -850,7 +855,6 @@ export default function StudioDetailsPage() {
                   Includes refundable security deposit of ৳
                   {studio.securityDeposit}.
                 </p>
-
               </div>
 
               {/* Submit */}
@@ -867,7 +871,6 @@ export default function StudioDetailsPage() {
               <p className="text-center text-xs leading-5 text-gray-400 dark:text-gray-500">
                 Your booking will remain Pending until the host confirms it.
               </p>
-
             </form>
           </div>
         </div>
