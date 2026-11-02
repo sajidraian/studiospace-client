@@ -34,19 +34,16 @@ export default function Navbar() {
   const user = session?.user;
 
   // Load saved theme
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("studiospace-theme");
+useEffect(() => {
+  const savedTheme = localStorage.getItem("studiospace-theme");
 
-    const isDark =
-      savedTheme === "dark" ||
-      (!savedTheme &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches);
+  const isDark = savedTheme === "dark";
 
-    setDarkMode(isDark);
-    document.documentElement.classList.toggle("dark", isDark);
+  setDarkMode(isDark);
+  document.documentElement.classList.toggle("dark", isDark);
 
-    setThemeLoaded(true);
-  }, []);
+  setThemeLoaded(true);
+}, []);
 
   // Toggle Theme
   const toggleTheme = () => {
