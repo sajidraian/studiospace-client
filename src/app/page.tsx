@@ -57,7 +57,6 @@ export default function Home() {
       <Navbar />
 
       <main className="bg-white text-gray-900 transition-colors duration-300 dark:bg-gray-950 dark:text-gray-100">
-
         {/* Hero Section */}
         <HeroSlider />
 
@@ -67,7 +66,6 @@ export default function Home() {
         {/* Categories */}
         <section className="bg-white px-4 py-14 dark:bg-gray-950 sm:px-6 sm:py-20 lg:py-24">
           <div className="mx-auto max-w-7xl">
-
             <div className="mb-9 text-center sm:mb-12">
               <p className="text-sm font-semibold tracking-wider text-violet-600">
                 EXPLORE SPACES
@@ -90,7 +88,8 @@ export default function Home() {
                   <Link
                     href={`/studios?category=${encodeURIComponent(category.name)}`}
                     key={category.name}
-                    className="group rounded-2xl border border-gray-200 bg-white p-5 transition hover:-translate-y-1 hover:border-violet-300 hover:shadow-xl sm:p-7 dark:border-gray-800 dark:bg-gray-900 dark:hover:border-violet-500"
+                    aria-label={`Explore ${category.name} - ${category.count}`}
+                    className="group rounded-2xl border border-gray-200 bg-white p-5 transition hover:-translate-y-1 hover:border-violet-300 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 sm:p-7 dark:border-gray-800 dark:bg-gray-900 dark:hover:border-violet-500 dark:focus-visible:ring-offset-gray-950"
                   >
                     <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-violet-100 text-violet-600 transition group-hover:bg-violet-600 group-hover:text-white sm:mb-6 sm:h-14 sm:w-14 sm:rounded-2xl dark:bg-violet-950 dark:text-violet-400 dark:group-hover:bg-violet-600 dark:group-hover:text-white">
                       <Icon size={26} />
@@ -112,7 +111,6 @@ export default function Home() {
                 );
               })}
             </div>
-
           </div>
         </section>
 
@@ -122,7 +120,6 @@ export default function Home() {
           className="bg-gray-50 px-4 py-14 dark:bg-gray-900 sm:px-6 sm:py-20 lg:py-24"
         >
           <div className="mx-auto max-w-7xl">
-
             <div className="mb-9 text-center sm:mb-14">
               <p className="text-sm font-semibold tracking-wider text-violet-600">
                 SIMPLE PROCESS
@@ -161,7 +158,6 @@ export default function Home() {
                 );
               })}
             </div>
-
           </div>
         </section>
 
@@ -171,7 +167,6 @@ export default function Home() {
           className="bg-white px-4 py-14 dark:bg-gray-950 sm:px-6 sm:py-20 lg:py-24"
         >
           <div className="mx-auto grid max-w-7xl items-center gap-9 sm:gap-12 md:grid-cols-2">
-
             {/* Content */}
             <div>
               <p className="text-sm font-semibold tracking-wider text-violet-600">
@@ -228,10 +223,8 @@ export default function Home() {
                 className="h-64 w-full object-cover sm:h-80 md:h-[380px] lg:h-[450px]"
               />
             </div>
-
           </div>
         </section>
-
       </main>
 
       <Footer />
