@@ -212,7 +212,6 @@ export default function EditStudioPage() {
   return (
     <main className="min-h-screen w-full min-w-0 overflow-x-clip bg-slate-50 px-3 py-6 transition-colors duration-300 dark:bg-gray-950 sm:px-5 sm:py-8 lg:px-7 lg:py-10">
       <div className="mx-auto w-full max-w-3xl min-w-0">
-
         {/* Header */}
         <Link
           href="/dashboard/my-listings"
@@ -243,9 +242,12 @@ export default function EditStudioPage() {
         >
           {/* Studio Title */}
           <div className="min-w-0">
-            <label className={labelClass}>Studio Title *</label>
+            <label htmlFor="title" className={labelClass}>
+              Studio Title *
+            </label>
 
             <input
+              id="title"
               name="title"
               value={formData.title}
               onChange={handleChange}
@@ -257,9 +259,12 @@ export default function EditStudioPage() {
 
           {/* Category */}
           <div className="min-w-0">
-            <label className={labelClass}>Studio Category *</label>
+            <label htmlFor="category" className={labelClass}>
+              Studio Category *
+            </label>
 
             <select
+              id="category"
               name="category"
               value={formData.category}
               onChange={handleChange}
@@ -287,9 +292,12 @@ export default function EditStudioPage() {
           {/* Pricing */}
           <div className="grid min-w-0 grid-cols-1 gap-5 sm:grid-cols-2">
             <div className="min-w-0">
-              <label className={labelClass}>Hourly Rate (৳) *</label>
+              <label htmlFor="hourlyRate" className={labelClass}>
+                Hourly Rate (৳) *
+              </label>
 
               <input
+                id="hourlyRate"
                 type="number"
                 name="hourlyRate"
                 value={formData.hourlyRate}
@@ -302,11 +310,12 @@ export default function EditStudioPage() {
             </div>
 
             <div className="min-w-0">
-              <label className={labelClass}>
+              <label htmlFor="securityDeposit" className={labelClass}>
                 Security Deposit (৳)
               </label>
 
               <input
+                id="securityDeposit"
                 type="number"
                 name="securityDeposit"
                 value={formData.securityDeposit}
@@ -320,9 +329,12 @@ export default function EditStudioPage() {
 
           {/* Capacity */}
           <div className="min-w-0">
-            <label className={labelClass}>Maximum Capacity *</label>
+            <label htmlFor="maxCapacity" className={labelClass}>
+              Maximum Capacity *
+            </label>
 
             <input
+              id="maxCapacity"
               type="number"
               name="maxCapacity"
               value={formData.maxCapacity}
@@ -337,9 +349,12 @@ export default function EditStudioPage() {
 
           {/* Location */}
           <div className="min-w-0">
-            <label className={labelClass}>Studio Location *</label>
+            <label htmlFor="location" className={labelClass}>
+              Studio Location *
+            </label>
 
             <input
+              id="location"
               name="location"
               value={formData.location}
               onChange={handleChange}
@@ -351,9 +366,12 @@ export default function EditStudioPage() {
 
           {/* Image */}
           <div className="min-w-0">
-            <label className={labelClass}>Studio Image URL *</label>
+            <label htmlFor="image" className={labelClass}>
+              Studio Image URL *
+            </label>
 
             <input
+              id="image"
               type="url"
               name="image"
               value={formData.image}
@@ -376,9 +394,12 @@ export default function EditStudioPage() {
 
           {/* Amenities */}
           <div className="min-w-0">
-            <label className={labelClass}>Amenities</label>
+            <label htmlFor="amenities" className={labelClass}>
+              Amenities
+            </label>
 
             <input
+              id="amenities"
               name="amenities"
               value={formData.amenities}
               onChange={handleChange}
@@ -393,9 +414,12 @@ export default function EditStudioPage() {
 
           {/* Overview */}
           <div className="min-w-0">
-            <label className={labelClass}>Studio Description *</label>
+            <label htmlFor="overview" className={labelClass}>
+              Studio Description *
+            </label>
 
             <textarea
+              id="overview"
               name="overview"
               value={formData.overview}
               onChange={handleChange}
