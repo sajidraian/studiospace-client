@@ -63,7 +63,10 @@ const slides = [
 
 export default function HeroSlider() {
   return (
-    <section className="relative overflow-hidden bg-[#171329] text-white">
+    <section
+      aria-label="Featured creative spaces"
+      className="relative overflow-hidden bg-[#171329] text-white"
+    >
       <Swiper
         modules={[Autoplay, Navigation, Pagination, EffectFade]}
         effect="fade"
@@ -83,7 +86,7 @@ export default function HeroSlider() {
           const Icon = slide.icon;
 
           return (
-            <SwiperSlide key={index}>
+            <SwiperSlide key={slide.title}>
               <div className="px-4 pb-16 pt-12 sm:px-6 sm:py-20 lg:py-28">
                 <div className="mx-auto grid max-w-7xl items-center gap-10 md:grid-cols-2 md:gap-12">
 
@@ -132,7 +135,10 @@ export default function HeroSlider() {
                       <img
                         src={slide.image}
                         alt={slide.imageAlt}
-                        className="h-56 w-full rounded-xl object-cover sm:h-80 sm:rounded-2xl md:h-[380px] lg:h-[450px]"
+                        loading={index === 0 ? "eager" : "lazy"}
+                        fetchPriority={index === 0 ? "high" : "auto"}
+                        decoding="async"
+                        className="h-56 w-full rounded-xl object-cover transition-opacity duration-300 sm:h-80 sm:rounded-2xl md:h-[380px] lg:h-[450px]"
                       />
                     </div>
 
