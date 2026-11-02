@@ -18,6 +18,8 @@ import {
 import { useSession } from "@/lib/auth-client";
 import { toast } from "sonner";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 interface Studio {
   _id: string;
   title: string;
@@ -59,17 +61,18 @@ export default function MyListingsPage() {
     try {
       setLoading(true);
 
-      const response = await fetch(
-        "http://localhost:5000/api/my-studios",
-        {
-          method: "GET",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          cache: "no-store",
-        }
-      );
+      if (!API_URL) {
+        throw new Error("API URL is not configured.");
+      }
+
+      const response = await fetch(`${API_URL}/api/my-studios`, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        cache: "no-store",
+      });
 
       const result = await response.json();
 
@@ -113,16 +116,18 @@ export default function MyListingsPage() {
 
     const id = selectedStudio._id;
 
+    if (!API_URL) {
+      toast.error("API URL is not configured.");
+      return;
+    }
+
     try {
       setDeletingId(id);
 
-      const response = await fetch(
-        `http://localhost:5000/api/studios/${id}`,
-        {
-          method: "DELETE",
-          credentials: "include",
-        }
-      );
+      const response = await fetch(`${API_URL}/api/studios/${id}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
 
       const result = await response.json();
 
@@ -171,7 +176,6 @@ export default function MyListingsPage() {
   return (
     <main className="min-h-screen w-full min-w-0 overflow-x-clip bg-slate-50 px-3 py-6 transition-colors duration-300 dark:bg-gray-950 sm:px-5 sm:py-8 lg:px-7 lg:py-10">
       <div className="mx-auto w-full max-w-7xl min-w-0">
-
         {/* Header */}
         <div className="mb-7 flex min-w-0 flex-col justify-between gap-4 sm:mb-10 sm:flex-row sm:items-center">
           <div className="min-w-0">
@@ -300,9 +304,7 @@ export default function MyListingsPage() {
                         size={17}
                         className="shrink-0 text-violet-500"
                       />
-                      <span>
-                        Maximum {studio.maxCapacity} people
-                      </span>
+                      <span>Maximum {studio.maxCapacity} people</span>
                     </p>
                   </div>
 

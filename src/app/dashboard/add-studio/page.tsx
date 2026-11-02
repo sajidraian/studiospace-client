@@ -11,6 +11,8 @@ import {
   ImagePlus,
 } from "lucide-react";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 const categories = [
   "Photography Studio",
   "Video Production Studio",
@@ -389,6 +391,11 @@ export default function AddStudioPage() {
       return;
     }
 
+    if (!API_URL) {
+      toast.error("API URL is not configured.");
+      return;
+    }
+
     if (
       !formData.title.trim() ||
       !formData.category ||
@@ -432,28 +439,25 @@ export default function AddStudioPage() {
     setLoading(true);
 
     try {
-      const response = await fetch(
-        "http://localhost:5000/api/studios",
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            title: formData.title.trim(),
-            category: formData.category,
-            location: formData.location.trim(),
-            hourlyRate,
-            securityDeposit,
-            maxCapacity,
-            image: formData.image.trim(),
-            galleryImages: formData.galleryImages,
-            overview: formData.overview.trim(),
-            amenities,
-          }),
-        }
-      );
+      const response = await fetch(`${API_URL}/api/studios`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: formData.title.trim(),
+          category: formData.category,
+          location: formData.location.trim(),
+          hourlyRate,
+          securityDeposit,
+          maxCapacity,
+          image: formData.image.trim(),
+          galleryImages: formData.galleryImages,
+          overview: formData.overview.trim(),
+          amenities,
+        }),
+      });
 
       const result = await response.json();
 
@@ -481,7 +485,6 @@ export default function AddStudioPage() {
 
   return (
     <div className="mx-auto w-full min-w-0 max-w-4xl text-gray-900 dark:text-gray-100">
-
       {/* Heading */}
       <div className="mb-6 sm:mb-8">
         <div className="mb-3 flex items-center gap-3">
@@ -507,7 +510,6 @@ export default function AddStudioPage() {
         onSubmit={handleSubmit}
         className="min-w-0 space-y-6 rounded-2xl border border-gray-100 bg-white p-4 shadow-sm transition-colors duration-300 dark:border-gray-800 dark:bg-gray-900 sm:space-y-8 sm:p-6 md:p-8"
       >
-
         {/* Basic Information */}
         <section className="min-w-0">
           <h3 className="mb-4 text-base font-bold text-gray-900 dark:text-white sm:mb-5 sm:text-lg">

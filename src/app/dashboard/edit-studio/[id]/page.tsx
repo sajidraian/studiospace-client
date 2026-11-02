@@ -7,6 +7,8 @@ import { ArrowLeft, Loader2, Save } from "lucide-react";
 import { useSession } from "@/lib/auth-client";
 import { toast } from "sonner";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 interface Studio {
   _id: string;
   title: string;
@@ -55,8 +57,12 @@ export default function EditStudioPage() {
 
     const fetchStudio = async () => {
       try {
+        if (!API_URL) {
+          throw new Error("API URL is not configured.");
+        }
+
         const response = await fetch(
-          `http://localhost:5000/api/studios/${id}`,
+          `${API_URL}/api/studios/${id}`,
           {
             credentials: "include",
           }
@@ -143,11 +149,16 @@ export default function EditStudioPage() {
       return;
     }
 
+    if (!API_URL) {
+      toast.error("API URL is not configured.");
+      return;
+    }
+
     try {
       setSaving(true);
 
       const response = await fetch(
-        `http://localhost:5000/api/studios/${id}`,
+        `${API_URL}/api/studios/${id}`,
         {
           method: "PUT",
           credentials: "include",

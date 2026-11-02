@@ -21,6 +21,8 @@ import {
 import { toast } from "sonner";
 import { useSession } from "@/lib/auth-client";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 interface Booking {
   _id: string;
   studioId: string;
@@ -57,12 +59,16 @@ export default function MyBookingsPage() {
     try {
       setLoading(true);
 
+      if (!API_URL) {
+        throw new Error("API URL is not configured.");
+      }
+
       const [customerResponse, ownerResponse] = await Promise.all([
-        fetch("http://localhost:5000/api/my-bookings", {
+        fetch(`${API_URL}/api/my-bookings`, {
           credentials: "include",
           cache: "no-store",
         }),
-        fetch("http://localhost:5000/api/owner-bookings", {
+        fetch(`${API_URL}/api/owner-bookings`, {
           credentials: "include",
           cache: "no-store",
         }),
@@ -104,11 +110,16 @@ export default function MyBookingsPage() {
 
   // Confirm Booking
   const handleConfirmBooking = async (bookingId: string) => {
+    if (!API_URL) {
+      toast.error("API URL is not configured.");
+      return;
+    }
+
     try {
       setConfirmingId(bookingId);
 
       const response = await fetch(
-        `http://localhost:5000/api/bookings/${bookingId}/confirm`,
+        `${API_URL}/api/bookings/${bookingId}/confirm`,
         {
           method: "PATCH",
           credentials: "include",
@@ -272,11 +283,16 @@ export default function MyBookingsPage() {
   const handleCancelBooking = async () => {
     if (!selectedBooking) return;
 
+    if (!API_URL) {
+      toast.error("API URL is not configured.");
+      return;
+    }
+
     try {
       setCancellingId(selectedBooking._id);
 
       const response = await fetch(
-        `http://localhost:5000/api/bookings/${selectedBooking._id}/cancel`,
+        `${API_URL}/api/bookings/${selectedBooking._id}/cancel`,
         {
           method: "PATCH",
           credentials: "include",
@@ -359,7 +375,6 @@ export default function MyBookingsPage() {
   return (
     <main className="min-h-screen bg-gray-50 px-3 py-6 transition-colors dark:bg-gray-900 sm:px-5 lg:px-7">
       <div className="mx-auto max-w-5xl">
-
         {/* Compact Header */}
         <div className="mb-6 flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
           <div>
@@ -478,7 +493,6 @@ export default function MyBookingsPage() {
                     className="overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm transition hover:shadow-md dark:border-gray-700 dark:bg-gray-800"
                   >
                     <div className="grid grid-cols-1 sm:grid-cols-[150px_1fr]">
-                      {/* Smaller Image */}
                       <div className="relative h-40 bg-gray-100 dark:bg-gray-700 sm:h-full sm:min-h-[170px]">
                         {booking.studioImage ? (
                           <Image
@@ -496,7 +510,6 @@ export default function MyBookingsPage() {
                       </div>
 
                       <div className="min-w-0 p-4">
-                        {/* Title and Status */}
                         <div className="flex flex-wrap items-start justify-between gap-2">
                           <div className="min-w-0">
                             <h2 className={`truncate text-lg ${headingClass}`}>
@@ -519,7 +532,6 @@ export default function MyBookingsPage() {
                           </span>
                         </div>
 
-                        {/* Booking Information */}
                         <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
                           <div>
                             <p className={`flex items-center gap-1 text-[11px] ${mutedClass}`}>
@@ -549,7 +561,6 @@ export default function MyBookingsPage() {
                           </div>
                         </div>
 
-                        {/* Price and Actions */}
                         <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-gray-100 pt-3 dark:border-gray-700">
                           <div>
                             <p className={`text-[11px] ${mutedClass}`}>
@@ -665,7 +676,6 @@ export default function MyBookingsPage() {
                           </span>
                         </div>
 
-                        {/* Customer Information */}
                         <div className="mt-3 rounded-lg bg-gray-50 px-3 py-2 dark:bg-gray-700/50">
                           <p className="text-[10px] font-bold uppercase text-gray-400">
                             Customer
@@ -678,7 +688,6 @@ export default function MyBookingsPage() {
                           </p>
                         </div>
 
-                        {/* Details */}
                         <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
                           <div>
                             <p className={`flex items-center gap-1 text-[11px] ${mutedClass}`}>
@@ -719,7 +728,6 @@ export default function MyBookingsPage() {
                           </div>
                         )}
 
-                        {/* Price and Action */}
                         <div className="mt-3 flex flex-wrap items-center justify-between gap-3 border-t border-gray-100 pt-3 dark:border-gray-700">
                           <div>
                             <p className={`text-[11px] ${mutedClass}`}>

@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { MapPin, Users, ArrowRight, ImageOff } from "lucide-react";
+import { MapPin, Users, ArrowRight } from "lucide-react";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 interface Studio {
   _id: string;
@@ -25,8 +27,12 @@ export default function FeaturedStudios() {
 
     const fetchStudios = async () => {
       try {
+        if (!API_URL) {
+          throw new Error("API URL is not configured.");
+        }
+
         const response = await fetch(
-          "http://localhost:5000/api/featured-studios",
+          `${API_URL}/api/featured-studios`,
           { signal: controller.signal }
         );
 
@@ -35,6 +41,7 @@ export default function FeaturedStudios() {
         }
 
         const result = await response.json();
+
         setStudios(
           Array.isArray(result.data) ? result.data : []
         );
@@ -60,7 +67,6 @@ export default function FeaturedStudios() {
   return (
     <section className="bg-white px-4 py-14 transition-colors dark:bg-gray-950 sm:px-6 sm:py-16 lg:px-10 lg:py-20">
       <div className="mx-auto max-w-7xl">
-
         {/* Section Heading */}
         <div className="mb-8 flex flex-col justify-between gap-5 sm:mb-10 md:flex-row md:items-end">
           <div>
@@ -116,7 +122,7 @@ export default function FeaturedStudios() {
                 className="group min-w-0 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg dark:border-gray-800 dark:bg-gray-900"
               >
                 {/* Studio Image */}
-                <div className="relative h-52 overflow-hidden bg-gray-100 sm:h-56 lg:h-60 dark:bg-gray-800">
+                <div className="relative h-52 overflow-hidden bg-gray-100 dark:bg-gray-800 sm:h-56 lg:h-60">
                   <img
                     src={
                       studio.image ||

@@ -16,6 +16,8 @@ import {
 import Navbar from "@/components/shared/Navbar";
 import Footer from "@/components/shared/Footer";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 type Studio = {
   _id: string;
   title: string;
@@ -64,8 +66,12 @@ function StudiosContent() {
         setLoading(true);
         setError("");
 
+        if (!API_URL) {
+          throw new Error("API URL is not configured.");
+        }
+
         const response = await fetch(
-          "http://localhost:5000/api/studios?page=1&limit=50",
+          `${API_URL}/api/studios?page=1&limit=50`,
           {
             signal: controller.signal,
           }
@@ -217,7 +223,6 @@ function StudiosContent() {
       <Navbar />
 
       <main className="min-h-screen overflow-hidden bg-[#faf9ff] text-gray-900 transition-colors duration-300 dark:bg-gray-950 dark:text-gray-100">
-
         {/* Page Header */}
         <section className="bg-[#171329] px-4 py-14 text-center text-white sm:px-6 sm:py-16 md:py-20">
           <p className="mb-3 text-xs font-semibold uppercase tracking-[2px] text-violet-400 sm:mb-4 sm:text-sm sm:tracking-[3px]">
@@ -236,9 +241,7 @@ function StudiosContent() {
 
         {/* Search and Filters */}
         <section className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-12">
-
           <div className="mb-8 rounded-2xl border border-gray-100 bg-white p-4 shadow-sm transition-colors dark:border-gray-800 dark:bg-gray-900 sm:mb-10 sm:p-6">
-
             <div className="mb-5 flex items-center gap-2 sm:mb-6">
               <SlidersHorizontal
                 size={21}
@@ -251,7 +254,6 @@ function StudiosContent() {
             </div>
 
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
-
               {/* Search */}
               <div className="relative min-w-0">
                 <Search
@@ -306,13 +308,11 @@ function StudiosContent() {
                 <option value="2000">Up to ৳2000/hour</option>
                 <option value="3000">Up to ৳3000/hour</option>
               </select>
-
             </div>
           </div>
 
           {/* Results Header */}
           <div className="mb-6 flex flex-col justify-between gap-4 sm:mb-7 sm:flex-row sm:items-center">
-
             <div>
               <h2 className="text-xl font-extrabold text-gray-900 dark:text-white sm:text-2xl">
                 Available Studios
@@ -330,7 +330,6 @@ function StudiosContent() {
             >
               Clear Filters
             </button>
-
           </div>
 
           {/* Loading */}
@@ -353,16 +352,13 @@ function StudiosContent() {
           {!loading && !error && filteredStudios.length > 0 && (
             <>
               <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 lg:gap-7">
-
                 {paginatedStudios.map((studio) => (
                   <div
                     key={studio._id}
                     className="group min-w-0 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl dark:border-gray-800 dark:bg-gray-900 sm:hover:-translate-y-2"
                   >
-
                     {/* Image */}
                     <div className="relative h-52 overflow-hidden bg-gray-100 dark:bg-gray-800 sm:h-56 lg:h-60">
-
                       <Image
                         src={studio.image}
                         alt={studio.title}
@@ -375,12 +371,10 @@ function StudiosContent() {
                       <span className="absolute left-3 top-3 max-w-[calc(100%-24px)] truncate rounded-full bg-white px-3 py-2 text-xs font-bold text-violet-700 shadow-sm dark:bg-gray-950 dark:text-violet-300 sm:left-4 sm:top-4 sm:px-4">
                         {studio.category}
                       </span>
-
                     </div>
 
                     {/* Content */}
                     <div className="p-4 sm:p-5">
-
                       <h3 className="break-words text-lg font-bold text-gray-900 transition group-hover:text-violet-600 dark:text-white dark:group-hover:text-violet-400 sm:text-xl">
                         {studio.title}
                       </h3>
@@ -406,7 +400,6 @@ function StudiosContent() {
 
                       {/* Price and Details */}
                       <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-gray-100 pt-4 dark:border-gray-700 sm:pt-5">
-
                         <div>
                           <p className="text-xs text-gray-400 dark:text-gray-500">
                             Starting from
@@ -428,13 +421,10 @@ function StudiosContent() {
                           View Details
                           <ArrowRight size={15} />
                         </Link>
-
                       </div>
-
                     </div>
                   </div>
                 ))}
-
               </div>
 
               {/* Pagination */}
@@ -485,14 +475,12 @@ function StudiosContent() {
                   </button>
                 </nav>
               )}
-
             </>
           )}
 
           {/* Empty State */}
           {!loading && !error && filteredStudios.length === 0 && (
             <div className="rounded-2xl border border-dashed border-gray-300 bg-white px-5 py-14 text-center dark:border-gray-700 dark:bg-gray-900 sm:px-6 sm:py-20">
-
               <Search
                 size={40}
                 className="mx-auto mb-5 text-gray-300 dark:text-gray-600 sm:h-12 sm:w-12"
@@ -512,10 +500,8 @@ function StudiosContent() {
               >
                 Reset Filters
               </button>
-
             </div>
           )}
-
         </section>
       </main>
 

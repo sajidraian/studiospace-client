@@ -13,6 +13,8 @@ import {
   Loader2,
 } from "lucide-react";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 type Studio = {
   _id: string;
   title: string;
@@ -40,11 +42,15 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
+        if (!API_URL) {
+          throw new Error("API URL is not configured.");
+        }
+
         const [studioResponse, bookingResponse] = await Promise.all([
-          fetch("http://localhost:5000/api/my-studios", {
+          fetch(`${API_URL}/api/my-studios`, {
             credentials: "include",
           }),
-          fetch("http://localhost:5000/api/my-bookings", {
+          fetch(`${API_URL}/api/my-bookings`, {
             credentials: "include",
           }),
         ]);
@@ -135,7 +141,6 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen w-full min-w-0 space-y-6 overflow-x-clip bg-gray-50 p-3 text-gray-900 transition-colors duration-300 dark:bg-gray-950 dark:text-gray-100 sm:space-y-8 sm:p-5 lg:p-8">
-
       {/* Welcome Section */}
       <div className="flex min-w-0 flex-col justify-between gap-5 sm:flex-row sm:items-center">
         <div className="min-w-0">
@@ -402,7 +407,6 @@ export default function DashboardPage() {
           </Link>
         </div>
       </div>
-
     </div>
   );
 }
