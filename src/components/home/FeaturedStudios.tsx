@@ -4,8 +4,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { MapPin, Users, ArrowRight } from "lucide-react";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
 interface Studio {
   _id: string;
   title: string;
@@ -27,14 +25,10 @@ export default function FeaturedStudios() {
 
     const fetchStudios = async () => {
       try {
-        if (!API_URL) {
-          throw new Error("API URL is not configured.");
-        }
-
-        const response = await fetch(
-          `${API_URL}/api/featured-studios`,
-          { signal: controller.signal }
-        );
+        const response = await fetch("/api/featured-studios", {
+          signal: controller.signal,
+          cache: "no-store",
+        });
 
         if (!response.ok) {
           throw new Error("Failed to fetch studios");

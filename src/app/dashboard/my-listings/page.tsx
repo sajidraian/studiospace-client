@@ -18,8 +18,6 @@ import {
 import { useSession } from "@/lib/auth-client";
 import { toast } from "sonner";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
 interface Studio {
   _id: string;
   title: string;
@@ -61,11 +59,7 @@ export default function MyListingsPage() {
     try {
       setLoading(true);
 
-      if (!API_URL) {
-        throw new Error("API URL is not configured.");
-      }
-
-      const response = await fetch(`${API_URL}/api/my-studios`, {
+      const response = await fetch("/api/my-studios", {
         method: "GET",
         credentials: "include",
         headers: {
@@ -116,15 +110,10 @@ export default function MyListingsPage() {
 
     const id = selectedStudio._id;
 
-    if (!API_URL) {
-      toast.error("API URL is not configured.");
-      return;
-    }
-
     try {
       setDeletingId(id);
 
-      const response = await fetch(`${API_URL}/api/studios/${id}`, {
+      const response = await fetch(`/api/studios/${id}`, {
         method: "DELETE",
         credentials: "include",
       });

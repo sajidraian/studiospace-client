@@ -11,8 +11,6 @@ import {
   ImagePlus,
 } from "lucide-react";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
 const categories = [
   "Photography Studio",
   "Video Production Studio",
@@ -391,11 +389,6 @@ export default function AddStudioPage() {
       return;
     }
 
-    if (!API_URL) {
-      toast.error("API URL is not configured.");
-      return;
-    }
-
     if (
       !formData.title.trim() ||
       !formData.category ||
@@ -439,7 +432,7 @@ export default function AddStudioPage() {
     setLoading(true);
 
     try {
-      const response = await fetch(`${API_URL}/api/studios`, {
+      const response = await fetch("/api/studios", {
         method: "POST",
         credentials: "include",
         headers: {

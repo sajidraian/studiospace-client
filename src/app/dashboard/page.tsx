@@ -13,8 +13,6 @@ import {
   Loader2,
 } from "lucide-react";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
 type Studio = {
   _id: string;
   title: string;
@@ -42,16 +40,14 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        if (!API_URL) {
-          throw new Error("API URL is not configured.");
-        }
-
         const [studioResponse, bookingResponse] = await Promise.all([
-          fetch(`${API_URL}/api/my-studios`, {
+          fetch("/api/my-studios", {
             credentials: "include",
+            cache: "no-store",
           }),
-          fetch(`${API_URL}/api/my-bookings`, {
+          fetch("/api/my-bookings", {
             credentials: "include",
+            cache: "no-store",
           }),
         ]);
 

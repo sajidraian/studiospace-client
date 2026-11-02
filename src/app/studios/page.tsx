@@ -16,8 +16,6 @@ import {
 import Navbar from "@/components/shared/Navbar";
 import Footer from "@/components/shared/Footer";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
 type Studio = {
   _id: string;
   title: string;
@@ -57,7 +55,7 @@ function StudiosContent() {
     }
   }, [selectedCategory]);
 
-  // Fetch Studios from MongoDB
+  // Fetch Studios from MongoDB through Next.js Proxy
   useEffect(() => {
     const controller = new AbortController();
 
@@ -66,14 +64,11 @@ function StudiosContent() {
         setLoading(true);
         setError("");
 
-        if (!API_URL) {
-          throw new Error("API URL is not configured.");
-        }
-
         const response = await fetch(
-          `${API_URL}/api/studios?page=1&limit=50`,
+          "/api/studios?page=1&limit=50",
           {
             signal: controller.signal,
+            cache: "no-store",
           }
         );
 

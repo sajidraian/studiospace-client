@@ -21,8 +21,6 @@ import { useSession } from "@/lib/auth-client";
 import Navbar from "@/components/shared/Navbar";
 import Footer from "@/components/shared/Footer";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
 type Studio = {
   _id: string;
   title: string;
@@ -70,13 +68,9 @@ export default function StudioDetailsPage() {
         setLoading(true);
         setError("");
 
-        if (!API_URL) {
-          throw new Error("API URL is not configured.");
-        }
-
-        const response = await fetch(
-          `${API_URL}/api/studios/${id}`
-        );
+        const response = await fetch(`/api/studios/${id}`, {
+          cache: "no-store",
+        });
 
         const result = await response.json();
 
@@ -186,15 +180,10 @@ export default function StudioDetailsPage() {
       return;
     }
 
-    if (!API_URL) {
-      toast.error("API URL is not configured.");
-      return;
-    }
-
     setBookingLoading(true);
 
     try {
-      const response = await fetch(`${API_URL}/api/bookings`, {
+      const response = await fetch("/api/bookings", {
         method: "POST",
         credentials: "include",
         headers: {

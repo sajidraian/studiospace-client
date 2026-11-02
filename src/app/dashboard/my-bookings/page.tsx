@@ -21,8 +21,6 @@ import {
 import { toast } from "sonner";
 import { useSession } from "@/lib/auth-client";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
 interface Booking {
   _id: string;
   studioId: string;
@@ -59,16 +57,12 @@ export default function MyBookingsPage() {
     try {
       setLoading(true);
 
-      if (!API_URL) {
-        throw new Error("API URL is not configured.");
-      }
-
       const [customerResponse, ownerResponse] = await Promise.all([
-        fetch(`${API_URL}/api/my-bookings`, {
+        fetch("/api/my-bookings", {
           credentials: "include",
           cache: "no-store",
         }),
-        fetch(`${API_URL}/api/owner-bookings`, {
+        fetch("/api/owner-bookings", {
           credentials: "include",
           cache: "no-store",
         }),
@@ -110,16 +104,11 @@ export default function MyBookingsPage() {
 
   // Confirm Booking
   const handleConfirmBooking = async (bookingId: string) => {
-    if (!API_URL) {
-      toast.error("API URL is not configured.");
-      return;
-    }
-
     try {
       setConfirmingId(bookingId);
 
       const response = await fetch(
-        `${API_URL}/api/bookings/${bookingId}/confirm`,
+        `/api/bookings/${bookingId}/confirm`,
         {
           method: "PATCH",
           credentials: "include",
@@ -186,6 +175,7 @@ export default function MyBookingsPage() {
         20,
         60
       );
+
       doc.text(`Booking ID: ${booking._id}`, 20, 68);
 
       doc.line(20, 77, pageWidth - 20, 77);
@@ -206,11 +196,13 @@ export default function MyBookingsPage() {
       doc.setFontSize(11);
       doc.setFont("helvetica", "normal");
       doc.text(`Booking Date: ${booking.bookingDate}`, 20, 144);
+
       doc.text(
         `Booking Time: ${booking.startTime} - ${booking.endTime}`,
         20,
         154
       );
+
       doc.text(`Number of Guests: ${booking.guests}`, 20, 164);
 
       doc.line(20, 177, pageWidth - 20, 177);
@@ -283,16 +275,11 @@ export default function MyBookingsPage() {
   const handleCancelBooking = async () => {
     if (!selectedBooking) return;
 
-    if (!API_URL) {
-      toast.error("API URL is not configured.");
-      return;
-    }
-
     try {
       setCancellingId(selectedBooking._id);
 
       const response = await fetch(
-        `${API_URL}/api/bookings/${selectedBooking._id}/cancel`,
+        `/api/bookings/${selectedBooking._id}/cancel`,
         {
           method: "PATCH",
           credentials: "include",
@@ -328,8 +315,10 @@ export default function MyBookingsPage() {
     switch (status) {
       case "Confirmed":
         return "bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300";
+
       case "Cancelled":
         return "bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300";
+
       default:
         return "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300";
     }
@@ -356,12 +345,15 @@ export default function MyBookingsPage() {
     return (
       <div className="flex min-h-[50vh] flex-col items-center justify-center bg-gray-50 px-4 text-center dark:bg-gray-900">
         <ClipboardList className="mb-3 h-12 w-12 text-gray-300 dark:text-gray-600" />
+
         <h2 className="text-xl font-bold text-gray-900 dark:text-white">
           Login Required
         </h2>
+
         <p className={`mt-2 text-sm ${mutedClass}`}>
           Please login to view your bookings.
         </p>
+
         <Link
           href="/login"
           className="mt-5 rounded-lg bg-violet-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-violet-700"
@@ -381,9 +373,11 @@ export default function MyBookingsPage() {
             <p className="text-xs font-bold uppercase tracking-wider text-violet-600">
               Your Dashboard
             </p>
+
             <h1 className="mt-1 text-2xl font-extrabold text-gray-900 dark:text-white sm:text-3xl">
               Booking Management
             </h1>
+
             <p className={`mt-1 text-sm ${mutedClass}`}>
               Manage your bookings and studio requests.
             </p>
@@ -424,6 +418,7 @@ export default function MyBookingsPage() {
             },
           ].map((item) => {
             const Icon = item.icon;
+
             return (
               <div
                 key={item.title}
@@ -432,6 +427,7 @@ export default function MyBookingsPage() {
                 <div className={`rounded-lg p-2.5 ${item.color}`}>
                   <Icon size={21} />
                 </div>
+
                 <div>
                   <p className={`text-xs ${mutedClass}`}>{item.title}</p>
                   <p className={`text-xl ${headingClass}`}>{item.value}</p>
@@ -474,10 +470,15 @@ export default function MyBookingsPage() {
             {bookings.length === 0 ? (
               <div className={`${cardClass} px-5 py-12 text-center`}>
                 <ClipboardList className="mx-auto mb-3 h-12 w-12 text-gray-300 dark:text-gray-600" />
-                <h2 className={`text-lg ${headingClass}`}>No Bookings Yet</h2>
+
+                <h2 className={`text-lg ${headingClass}`}>
+                  No Bookings Yet
+                </h2>
+
                 <p className={`mt-1 text-sm ${mutedClass}`}>
                   You have not booked any creative studio yet.
                 </p>
+
                 <Link
                   href="/studios"
                   className="mt-5 inline-flex items-center gap-2 rounded-lg bg-violet-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-violet-700"
@@ -515,6 +516,7 @@ export default function MyBookingsPage() {
                             <h2 className={`truncate text-lg ${headingClass}`}>
                               {booking.studioTitle}
                             </h2>
+
                             <p
                               className={`mt-1 flex items-center gap-1.5 text-xs ${mutedClass}`}
                             >
@@ -534,27 +536,36 @@ export default function MyBookingsPage() {
 
                         <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
                           <div>
-                            <p className={`flex items-center gap-1 text-[11px] ${mutedClass}`}>
+                            <p
+                              className={`flex items-center gap-1 text-[11px] ${mutedClass}`}
+                            >
                               <CalendarDays size={13} /> Date
                             </p>
+
                             <p className={`mt-1 ${detailClass}`}>
                               {booking.bookingDate}
                             </p>
                           </div>
 
                           <div>
-                            <p className={`flex items-center gap-1 text-[11px] ${mutedClass}`}>
+                            <p
+                              className={`flex items-center gap-1 text-[11px] ${mutedClass}`}
+                            >
                               <Clock size={13} /> Time
                             </p>
+
                             <p className={`mt-1 ${detailClass}`}>
                               {booking.startTime} - {booking.endTime}
                             </p>
                           </div>
 
                           <div>
-                            <p className={`flex items-center gap-1 text-[11px] ${mutedClass}`}>
+                            <p
+                              className={`flex items-center gap-1 text-[11px] ${mutedClass}`}
+                            >
                               <Users size={13} /> Guests
                             </p>
+
                             <p className={`mt-1 ${detailClass}`}>
                               {booking.guests}
                             </p>
@@ -566,6 +577,7 @@ export default function MyBookingsPage() {
                             <p className={`text-[11px] ${mutedClass}`}>
                               Total Price
                             </p>
+
                             <p className="text-lg font-extrabold text-violet-700 dark:text-violet-400">
                               ৳
                               {Number(booking.totalPrice).toLocaleString(
@@ -617,12 +629,15 @@ export default function MyBookingsPage() {
             {ownerBookings.length === 0 ? (
               <div className={`${cardClass} px-5 py-12 text-center`}>
                 <Building2 className="mx-auto mb-3 h-12 w-12 text-gray-300 dark:text-gray-600" />
+
                 <h2 className={`text-lg ${headingClass}`}>
                   No Studio Requests Yet
                 </h2>
+
                 <p className={`mt-1 text-sm ${mutedClass}`}>
                   Booking requests for your studios will appear here.
                 </p>
+
                 <Link
                   href="/dashboard/add-studio"
                   className="mt-5 inline-flex items-center gap-2 rounded-lg bg-violet-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-violet-700"
@@ -660,10 +675,14 @@ export default function MyBookingsPage() {
                             <p className="text-[10px] font-bold uppercase tracking-wider text-violet-600">
                               Studio Request
                             </p>
+
                             <h2 className={`mt-1 truncate text-lg ${headingClass}`}>
                               {booking.studioTitle}
                             </h2>
-                            <p className={`mt-1 flex items-center gap-1.5 text-xs ${mutedClass}`}>
+
+                            <p
+                              className={`mt-1 flex items-center gap-1.5 text-xs ${mutedClass}`}
+                            >
                               <MapPin size={14} />
                               {booking.studioLocation}
                             </p>
@@ -680,9 +699,11 @@ export default function MyBookingsPage() {
                           <p className="text-[10px] font-bold uppercase text-gray-400">
                             Customer
                           </p>
+
                           <p className="mt-1 text-sm font-semibold text-gray-800 dark:text-gray-100">
                             {booking.customerName || "Customer"}
                           </p>
+
                           <p className={`text-xs ${mutedClass}`}>
                             {booking.customerEmail || "Email not available"}
                           </p>
@@ -690,27 +711,36 @@ export default function MyBookingsPage() {
 
                         <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
                           <div>
-                            <p className={`flex items-center gap-1 text-[11px] ${mutedClass}`}>
+                            <p
+                              className={`flex items-center gap-1 text-[11px] ${mutedClass}`}
+                            >
                               <CalendarDays size={13} /> Date
                             </p>
+
                             <p className={`mt-1 ${detailClass}`}>
                               {booking.bookingDate}
                             </p>
                           </div>
 
                           <div>
-                            <p className={`flex items-center gap-1 text-[11px] ${mutedClass}`}>
+                            <p
+                              className={`flex items-center gap-1 text-[11px] ${mutedClass}`}
+                            >
                               <Clock size={13} /> Time
                             </p>
+
                             <p className={`mt-1 ${detailClass}`}>
                               {booking.startTime} - {booking.endTime}
                             </p>
                           </div>
 
                           <div>
-                            <p className={`flex items-center gap-1 text-[11px] ${mutedClass}`}>
+                            <p
+                              className={`flex items-center gap-1 text-[11px] ${mutedClass}`}
+                            >
                               <Users size={13} /> Guests
                             </p>
+
                             <p className={`mt-1 ${detailClass}`}>
                               {booking.guests}
                             </p>
@@ -722,6 +752,7 @@ export default function MyBookingsPage() {
                             <p className="text-[10px] font-bold uppercase text-gray-400">
                               Customer Notes
                             </p>
+
                             <p className="mt-1 text-xs leading-5 text-gray-600 dark:text-gray-300">
                               {booking.notes}
                             </p>
@@ -733,6 +764,7 @@ export default function MyBookingsPage() {
                             <p className={`text-[11px] ${mutedClass}`}>
                               Total Price
                             </p>
+
                             <p className="text-lg font-extrabold text-violet-700 dark:text-violet-400">
                               ৳
                               {Number(booking.totalPrice).toLocaleString(
