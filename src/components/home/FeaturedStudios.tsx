@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { MapPin, Users, ArrowRight } from "lucide-react";
+import { MapPin, Users, ArrowRight, ImageOff } from "lucide-react";
 
 interface Studio {
   _id: string;
@@ -21,10 +21,13 @@ export default function FeaturedStudios() {
   const [error, setError] = useState("");
 
   useEffect(() => {
+    const controller = new AbortController();
+
     const fetchStudios = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/api/featured-studios"
+          "http://localhost:5000/api/featured-studios",
+          { signal: controller.signal }
         );
 
         if (!response.ok) {
@@ -32,16 +35,26 @@ export default function FeaturedStudios() {
         }
 
         const result = await response.json();
-        setStudios(result.data || []);
+        setStudios(
+          Array.isArray(result.data) ? result.data : []
+        );
       } catch (err) {
+        if (err instanceof Error && err.name === "AbortError") {
+          return;
+        }
+
         console.error(err);
         setError("Studios could not be loaded. Please try again.");
       } finally {
-        setLoading(false);
+        if (!controller.signal.aborted) {
+          setLoading(false);
+        }
       }
     };
 
     fetchStudios();
+
+    return () => controller.abort();
   }, []);
 
   return (
@@ -66,7 +79,7 @@ export default function FeaturedStudios() {
 
           <Link
             href="/studios"
-            className="inline-flex w-fit items-center gap-2 text-sm font-semibold text-orange-500 transition hover:text-orange-600 sm:text-base"
+            className="inline-flex w-fit items-center gap-2 text-sm font-semibold text-orange-500 transition hover:text-orange-600"
           >
             Explore All Studios
             <ArrowRight size={18} />
@@ -81,7 +94,7 @@ export default function FeaturedStudios() {
         )}
 
         {/* Error State */}
-        {error && (
+        {!loading && error && (
           <div className="rounded-xl bg-red-50 p-5 text-center text-sm text-red-600 dark:bg-red-950/30 dark:text-red-400 sm:p-6 sm:text-base">
             {error}
           </div>
@@ -103,11 +116,20 @@ export default function FeaturedStudios() {
                 className="group min-w-0 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg dark:border-gray-800 dark:bg-gray-900"
               >
                 {/* Studio Image */}
-                <div className="h-52 overflow-hidden bg-gray-100 sm:h-56 lg:h-60 dark:bg-gray-800">
+                <div className="relative h-52 overflow-hidden bg-gray-100 sm:h-56 lg:h-60 dark:bg-gray-800">
                   <img
-                    src={studio.image}
-                    alt={studio.title}
+                    src={
+                      studio.image ||
+                      "https://placehold.co/800x600?text=StudioSpace"
+                    }
+                    alt={`${studio.title} studio`}
                     loading="lazy"
+                    decoding="async"
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src =
+                        "https://placehold.co/800x600?text=Image+Unavailable";
+                    }}
                     className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                   />
                 </div>
