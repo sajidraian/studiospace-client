@@ -78,11 +78,11 @@ export default function LoginPage() {
     setGoogleLoading(true);
 
     try {
-      await authClient.signIn.social({
-        provider: "google",
-        callbackURL: "/",
-        errorCallbackURL: "/login",
-      });
+await authClient.signIn.social({
+  provider: "google",
+  callbackURL: "/auth-success",
+  errorCallbackURL: "/login",
+});
     } catch (error) {
       console.error("Google login error:", error);
       toast.error("Google login failed. Please try again.");
