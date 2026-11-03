@@ -101,11 +101,11 @@ export default function RegisterPage() {
     setGoogleLoading(true);
 
     try {
-      await authClient.signIn.social({
-        provider: "google",
-        callbackURL: "/",
-        errorCallbackURL: "/register",
-      });
+    await authClient.signIn.social({
+  provider: "google",
+  callbackURL: "/auth-success",
+  errorCallbackURL: "/register",
+});
     } catch (error) {
       console.error("Google registration error:", error);
       toast.error("Google registration failed. Please try again.");
