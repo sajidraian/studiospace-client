@@ -6,11 +6,18 @@ import {
   FaLinkedinIn,
 } from "react-icons/fa";
 
+const categories = [
+  { name: "Photo Studios", value: "Photography" },
+  { name: "Sound Stages", value: "Sound Stage" },
+  { name: "Podcast Rooms", value: "Podcast" },
+  { name: "Music Suites", value: "Music" },
+  { name: "Art Workshops", value: "Art Workshop" },
+];
+
 export default function Footer() {
   return (
     <footer className="border-t border-gray-200 bg-white px-4 pt-12 text-gray-900 transition-colors duration-300 dark:border-gray-800 dark:bg-[#171329] dark:text-white sm:px-6 sm:pt-16">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 pb-10 sm:grid-cols-2 sm:gap-12 lg:grid-cols-4 lg:pb-14">
-
         {/* Brand & Social Links */}
         <div>
           <Link href="/" className="inline-flex items-center gap-2">
@@ -20,7 +27,10 @@ export default function Footer() {
             />
 
             <span className="text-2xl font-extrabold">
-              Studio<span className="text-violet-500 dark:text-violet-400">Space</span>
+              Studio
+              <span className="text-violet-500 dark:text-violet-400">
+                Space
+              </span>
             </span>
           </Link>
 
@@ -31,7 +41,9 @@ export default function Footer() {
 
           <div className="mt-6 flex items-center gap-5">
             <a
-              href="#"
+              href="https://www.facebook.com/"
+              target="_blank"
+              rel="noopener noreferrer"
               aria-label="Facebook"
               className="text-gray-600 transition hover:text-violet-500 dark:text-gray-400 dark:hover:text-violet-400"
             >
@@ -39,7 +51,9 @@ export default function Footer() {
             </a>
 
             <a
-              href="#"
+              href="https://www.instagram.com/"
+              target="_blank"
+              rel="noopener noreferrer"
               aria-label="Instagram"
               className="text-gray-600 transition hover:text-violet-500 dark:text-gray-400 dark:hover:text-violet-400"
             >
@@ -47,7 +61,9 @@ export default function Footer() {
             </a>
 
             <a
-              href="#"
+              href="https://www.linkedin.com/"
+              target="_blank"
+              rel="noopener noreferrer"
               aria-label="LinkedIn"
               className="text-gray-600 transition hover:text-violet-500 dark:text-gray-400 dark:hover:text-violet-400"
             >
@@ -55,7 +71,9 @@ export default function Footer() {
             </a>
 
             <a
-              href="#"
+              href="https://x.com/"
+              target="_blank"
+              rel="noopener noreferrer"
               aria-label="X"
               className="text-xl font-bold text-gray-600 transition hover:text-violet-500 dark:text-gray-400 dark:hover:text-violet-400"
             >
@@ -72,25 +90,37 @@ export default function Footer() {
 
           <ul className="space-y-3 text-sm text-gray-600 dark:text-gray-400 sm:space-y-4">
             <li>
-              <Link href="/" className="transition hover:text-violet-500 dark:hover:text-white">
+              <Link
+                href="/"
+                className="transition hover:text-violet-500 dark:hover:text-white"
+              >
                 Home
               </Link>
             </li>
 
             <li>
-              <Link href="/studios" className="transition hover:text-violet-500 dark:hover:text-white">
+              <Link
+                href="/studios"
+                className="transition hover:text-violet-500 dark:hover:text-white"
+              >
                 Explore Studios
               </Link>
             </li>
 
             <li>
-              <Link href="/#how-it-works" className="transition hover:text-violet-500 dark:hover:text-white">
+              <Link
+                href="/#how-it-works"
+                className="transition hover:text-violet-500 dark:hover:text-white"
+              >
                 How It Works
               </Link>
             </li>
 
             <li>
-              <Link href="/#about" className="transition hover:text-violet-500 dark:hover:text-white">
+              <Link
+                href="/#about"
+                className="transition hover:text-violet-500 dark:hover:text-white"
+              >
                 About Us
               </Link>
             </li>
@@ -104,11 +134,16 @@ export default function Footer() {
           </h3>
 
           <ul className="space-y-3 text-sm text-gray-600 dark:text-gray-400 sm:space-y-4">
-            <li>Photo Studios</li>
-            <li>Sound Stages</li>
-            <li>Podcast Rooms</li>
-            <li>Music Suites</li>
-            <li>Art Workshops</li>
+            {categories.map((category) => (
+              <li key={category.value}>
+                <Link
+                  href={`/studios?category=${encodeURIComponent(category.value)}`}
+                  className="transition hover:text-violet-500 dark:hover:text-white"
+                >
+                  {category.name}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
 
