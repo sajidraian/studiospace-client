@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -34,16 +35,15 @@ export default function Navbar() {
   const user = session?.user;
 
   // Load saved theme
-useEffect(() => {
-  const savedTheme = localStorage.getItem("studiospace-theme");
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("studiospace-theme");
+    const isDark = savedTheme === "dark";
 
-  const isDark = savedTheme === "dark";
+    setDarkMode(isDark);
+    document.documentElement.classList.toggle("dark", isDark);
 
-  setDarkMode(isDark);
-  document.documentElement.classList.toggle("dark", isDark);
-
-  setThemeLoaded(true);
-}, []);
+    setThemeLoaded(true);
+  }, []);
 
   // Toggle Theme
   const toggleTheme = () => {
@@ -87,16 +87,30 @@ useEffect(() => {
   // Logout
   const handleLogout = async () => {
     try {
+      // Step 1: Sign out from Better Auth
       await authClient.signOut();
 
+      // Step 2: Clear custom JWT authentication cookie
+      const response = await fetch("/api/auth-cookie", {
+        method: "DELETE",
+        credentials: "include",
+        cache: "no-store",
+      });
+
+      if (!response.ok) {
+        throw new Error("Could not clear authentication cookie.");
+      }
+
+      // Step 3: Update UI and redirect
       toast.success("Logged out successfully!");
 
       closeMenus();
 
       router.push("/");
       router.refresh();
-    } catch {
-      toast.error("Logout failed!");
+    } catch (error) {
+      console.error("Logout error:", error);
+      toast.error("Logout failed. Please try again.");
     }
   };
 
