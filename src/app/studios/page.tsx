@@ -25,6 +25,8 @@ type Studio = {
   maxCapacity: number;
   image: string;
   overview: string;
+  rating?: number;
+  reviewCount?: number;
 };
 
 const inputStyles =
@@ -385,9 +387,15 @@ function StudiosContent() {
                         </span>
                       </div>
 
-                      <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-                        Up to {studio.maxCapacity} people
-                      </p>
+                      <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                        <span>Up to {studio.maxCapacity} people</span>
+                        <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-700 dark:bg-amber-950/40 dark:text-amber-300">
+                          <span aria-hidden="true">★</span>
+                          {studio.reviewCount && studio.reviewCount > 0
+                            ? `${Number(studio.rating || 0).toFixed(1)} (${studio.reviewCount} ${studio.reviewCount === 1 ? "review" : "reviews"})`
+                            : "New · No reviews yet"}
+                        </span>
+                      </div>
 
                       <p className="mt-3 line-clamp-2 text-sm leading-6 text-gray-500 dark:text-gray-400">
                         {studio.overview}
