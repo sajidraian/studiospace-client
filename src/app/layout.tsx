@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
@@ -61,8 +62,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${jakarta.variable} antialiased`}>
+        <Script
+          id="theme-init"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function () {
+                try {
+                  var theme = localStorage.getItem("studiospace-theme");
+                  var isDark = theme === "dark";
+
+                  document.documentElement.classList.toggle("dark", isDark);
+                } catch (error) {}
+              })();
+            `,
+          }}
+        />
+
         <Toaster position="top-right" richColors />
         {children}
       </body>
