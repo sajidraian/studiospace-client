@@ -9,7 +9,10 @@ async function proxyRequest(
   try {
     if (!API_URL) {
       return NextResponse.json(
-        { success: false, message: "Backend API is not configured." },
+        {
+          success: false,
+          message: "Backend API is not configured.",
+        },
         { status: 500 }
       );
     }
@@ -18,10 +21,25 @@ async function proxyRequest(
 
     const backendUrl = `${API_URL}/api/${path.join("/")}${request.nextUrl.search}`;
 
-    const headers = new Headers(request.headers);
+    const headers = new Headers();
 
-    headers.delete("host");
-    headers.delete("connection");
+    // Forward required headers
+    const contentType = request.headers.get("content-type");
+    const cookie = request.headers.get("cookie");
+    const authorization = request.headers.get("authorization");
+
+    if (contentType) {
+      headers.set("content-type", contentType);
+    }
+
+    // Explicitly forward authentication cookie
+    if (cookie) {
+      headers.set("cookie", cookie);
+    }
+
+    if (authorization) {
+      headers.set("authorization", authorization);
+    }
 
     const response = await fetch(backendUrl, {
       method: request.method,
@@ -33,21 +51,22 @@ async function proxyRequest(
       cache: "no-store",
     });
 
-    const responseHeaders = new Headers(response.headers);
-
-    responseHeaders.delete("content-encoding");
-    responseHeaders.delete("content-length");
-    responseHeaders.delete("transfer-encoding");
-
     return new NextResponse(response.body, {
       status: response.status,
-      headers: responseHeaders,
+      headers: {
+        "content-type":
+          response.headers.get("content-type") || "application/json",
+        "cache-control": "no-store",
+      },
     });
   } catch (error) {
     console.error("Backend Proxy Error:", error);
 
     return NextResponse.json(
-      { success: false, message: "Backend server is unavailable." },
+      {
+        success: false,
+        message: "Backend server is unavailable.",
+      },
       { status: 502 }
     );
   }
