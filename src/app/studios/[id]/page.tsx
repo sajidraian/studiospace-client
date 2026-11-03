@@ -35,6 +35,22 @@ type Studio = {
   overview: string;
   ownerEmail: string;
   ownerName: string;
+  rating?: number;
+  reviewCount?: number;
+};
+
+type Review = {
+  _id?: string;
+  reviewerName: string;
+  rating: number;
+  comment: string;
+  createdAt: string;
+};
+
+type EligibleBooking = {
+  _id: string;
+  bookingDate: string;
+  studioTitle: string;
 };
 
 const inputStyles =
@@ -52,6 +68,12 @@ export default function StudioDetailsPage() {
   const [error, setError] = useState("");
 
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [eligibleBookings, setEligibleBookings] = useState<EligibleBooking[]>([]);
+  const [selectedReviewBooking, setSelectedReviewBooking] = useState("");
+  const [reviewRating, setReviewRating] = useState("5");
+  const [reviewComment, setReviewComment] = useState("");
+  const [reviewLoading, setReviewLoading] = useState(false);
 
   const [bookingOpen, setBookingOpen] = useState(false);
   const [bookingDate, setBookingDate] = useState("");
@@ -94,6 +116,91 @@ export default function StudioDetailsPage() {
 
     fetchStudio();
   }, [id]);
+
+  // Fetch studio reviews and eligible completed bookings
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const response = await fetch(`/api/studios/${id}/reviews`, { cache: "no-store" });
+        const result = await response.json();
+        if (response.ok && Array.isArray(result.data)) setReviews(result.data);
+      } catch (err) {
+        console.error("Review fetch error:", err);
+      }
+    };
+
+    fetchReviews();
+  }, [id]);
+
+  useEffect(() => {
+    if (sessionLoading || !session?.user) return;
+
+    const fetchEligibleBookings = async () => {
+      try {
+        const response = await fetch("/api/my-bookings?limit=50", {
+          credentials: "include",
+          cache: "no-store",
+        });
+        const result = await response.json();
+        if (!response.ok || !Array.isArray(result.data)) return;
+
+        const today = new Date().toISOString().slice(0, 10);
+        const eligible = result.data.filter((booking: any) =>
+          booking.studioId === id &&
+          booking.status === "Confirmed" &&
+          typeof booking.bookingDate === "string" &&
+          booking.bookingDate < today
+        );
+        setEligibleBookings(eligible);
+        if (eligible.length) setSelectedReviewBooking(eligible[0]._id);
+      } catch (err) {
+        console.error("Eligible booking fetch error:", err);
+      }
+    };
+
+    fetchEligibleBookings();
+  }, [id, session?.user, sessionLoading]);
+
+  const handleReviewSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!selectedReviewBooking) return;
+
+    setReviewLoading(true);
+    try {
+      const response = await fetch("/api/reviews", {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          bookingId: selectedReviewBooking,
+          rating: Number(reviewRating),
+          comment: reviewComment,
+        }),
+      });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.message || "Could not submit review.");
+
+      toast.success(result.message || "Review submitted successfully!");
+      setReviewComment("");
+
+      const [reviewResponse, studioResponse] = await Promise.all([
+        fetch(`/api/studios/${id}/reviews`, { cache: "no-store" }),
+        fetch(`/api/studios/${id}`, { cache: "no-store" }),
+      ]);
+      const [reviewResult, studioResult] = await Promise.all([
+        reviewResponse.json(),
+        studioResponse.json(),
+      ]);
+      if (Array.isArray(reviewResult.data)) setReviews(reviewResult.data);
+      if (studioResult.data) setStudio(studioResult.data);
+      setEligibleBookings((previous) => previous.filter((booking) => booking._id !== selectedReviewBooking));
+      setSelectedReviewBooking("");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Review submission failed.");
+    } finally {
+      setReviewLoading(false);
+    }
+  };
 
   // Close Lightbox with Escape Key
   useEffect(() => {
@@ -569,24 +676,76 @@ export default function StudioDetailsPage() {
 
             {/* Reviews */}
             <div>
-              <h2 className="text-xl font-extrabold text-gray-900 dark:text-white sm:text-2xl">
-                Guest Reviews
-              </h2>
-
-              <div className="mt-5 rounded-2xl border border-dashed border-gray-300 bg-white p-6 text-center dark:border-gray-700 dark:bg-gray-900 sm:mt-6 sm:p-8">
-                <Star
-                  size={32}
-                  className="mx-auto mb-3 text-gray-300 dark:text-gray-600"
-                />
-
-                <h3 className="text-sm font-bold text-gray-700 dark:text-gray-200 sm:text-base">
-                  No Reviews Yet
-                </h3>
-
-                <p className="mt-2 text-xs text-gray-500 dark:text-gray-400 sm:text-sm">
-                  Reviews will appear here after guests complete their bookings.
-                </p>
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <h2 className="text-xl font-extrabold text-gray-900 dark:text-white sm:text-2xl">
+                  Guest Reviews
+                </h2>
+                <div className="flex items-center gap-2 rounded-xl bg-white px-4 py-2 shadow-sm dark:bg-gray-900">
+                  <Star size={18} className="fill-yellow-400 text-yellow-400" />
+                  <span className="font-bold text-gray-900 dark:text-white">
+                    {reviews.length ? (studio.rating ?? 0).toFixed(1) : "New"}
+                  </span>
+                  <span className="text-xs text-gray-500 dark:text-gray-400">
+                    ({reviews.length} {reviews.length === 1 ? "review" : "reviews"})
+                  </span>
+                </div>
               </div>
+
+              {eligibleBookings.length > 0 && (
+                <form onSubmit={handleReviewSubmit} className="mt-5 space-y-4 rounded-2xl border border-violet-100 bg-white p-5 shadow-sm dark:border-violet-900 dark:bg-gray-900">
+                  <h3 className="font-bold text-gray-900 dark:text-white">Share your experience</h3>
+                  {eligibleBookings.length > 1 && (
+                    <select value={selectedReviewBooking} onChange={(event) => setSelectedReviewBooking(event.target.value)} className={inputStyles} required>
+                      {eligibleBookings.map((booking) => (
+                        <option key={booking._id} value={booking._id}>
+                          Booking on {booking.bookingDate}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+                  <div className="flex flex-wrap items-center gap-3">
+                    <label htmlFor="review-rating" className="text-sm font-medium text-gray-700 dark:text-gray-300">Your rating</label>
+                    <select id="review-rating" value={reviewRating} onChange={(event) => setReviewRating(event.target.value)} className="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm dark:border-gray-700 dark:bg-gray-950" required>
+                      <option value="5">5 - Excellent</option>
+                      <option value="4">4 - Very Good</option>
+                      <option value="3">3 - Good</option>
+                      <option value="2">2 - Fair</option>
+                      <option value="1">1 - Poor</option>
+                    </select>
+                  </div>
+                  <textarea value={reviewComment} onChange={(event) => setReviewComment(event.target.value)} maxLength={1000} rows={3} placeholder="Tell others about your experience (optional)" className={inputStyles} />
+                  <button type="submit" disabled={reviewLoading || !selectedReviewBooking} className="rounded-xl bg-violet-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-violet-700 disabled:cursor-not-allowed disabled:opacity-60">
+                    {reviewLoading ? "Submitting..." : "Submit Review"}
+                  </button>
+                </form>
+              )}
+
+              {reviews.length > 0 ? (
+                <div className="mt-5 space-y-4">
+                  {reviews.map((review, index) => (
+                    <article key={review._id || index} className="rounded-2xl bg-white p-5 shadow-sm dark:border dark:border-gray-800 dark:bg-gray-900">
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <h3 className="font-bold text-gray-900 dark:text-white">{review.reviewerName}</h3>
+                        <span className="text-xs text-gray-500 dark:text-gray-400">{new Date(review.createdAt).toLocaleDateString()}</span>
+                      </div>
+                      <div className="mt-2 flex items-center gap-1" aria-label={`${review.rating} out of 5 stars`}>
+                        {Array.from({ length: 5 }, (_, index) => (
+                          <Star key={index} size={15} className={index < review.rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"} />
+                        ))}
+                      </div>
+                      {review.comment && <p className="mt-3 whitespace-pre-wrap text-sm leading-6 text-gray-600 dark:text-gray-300">{review.comment}</p>}
+                    </article>
+                  ))}
+                </div>
+              ) : (
+                <div className="mt-5 rounded-2xl border border-dashed border-gray-300 bg-white p-6 text-center dark:border-gray-700 dark:bg-gray-900 sm:p-8">
+                  <Star size={32} className="mx-auto mb-3 text-gray-300 dark:text-gray-600" />
+                  <h3 className="text-sm font-bold text-gray-700 dark:text-gray-200 sm:text-base">No Reviews Yet</h3>
+                  <p className="mt-2 text-xs text-gray-500 dark:text-gray-400 sm:text-sm">
+                    {eligibleBookings.length ? "You can be the first to review this studio." : "Reviews from guests with past confirmed bookings will appear here."}
+                  </p>
+                </div>
+              )}
             </div>
           </div>
 
