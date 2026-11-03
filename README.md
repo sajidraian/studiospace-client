@@ -1,93 +1,125 @@
-# StudioSpace — Find Your Space. Create Your Story.
+<!-- ===================== HERO ===================== -->
+<div align="center">
 
-<p align="center">
-  <strong>A peer-to-peer marketplace for creative workspaces and production studios.</strong>
-  <br />
-  Discover inspiring spaces, book the right studio, and manage every reservation in one place.
-</p>
+# ✦ StudioSpace
 
-<p align="center">
-  <a href="https://studiospace-client-one.vercel.app/"><strong>Visit Live Website</strong></a>
-  &nbsp;•&nbsp;
-  <a href="https://github.com/sajidraian/studiospace-server">Backend Repository</a>
-  &nbsp;•&nbsp;
-  <a href="https://studiospace-server-l4bg.onrender.com/api/health">API Health</a>
-</p>
+### Find Your Space. Create Your Story.
+
+**A modern marketplace for discovering, listing, and booking creative studios.**
+
+<br />
+
+<a href="https://studiospace-client-one.vercel.app/">
+  <img src="https://img.shields.io/badge/🚀_Live_Demo-Visit_StudioSpace-2563EB?style=for-the-badge" alt="Live Demo" />
+</a>
+<a href="https://github.com/sajidraian/studiospace-server">
+  <img src="https://img.shields.io/badge/Backend-Source_Code-111827?style=for-the-badge&logo=github" alt="Backend Repository" />
+</a>
+
+<br /><br />
+
+<img src="https://img.shields.io/badge/Next.js-16-black?style=flat-square&logo=next.js" alt="Next.js" />
+<img src="https://img.shields.io/badge/React-19-149ECA?style=flat-square&logo=react" alt="React" />
+<img src="https://img.shields.io/badge/TypeScript-Strict-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
+<img src="https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?style=flat-square&logo=tailwindcss" alt="Tailwind CSS" />
+<img src="https://img.shields.io/badge/Deployed_on-Vercel-black?style=flat-square&logo=vercel" alt="Vercel" />
+
+</div>
 
 ---
 
-## Overview
+## ✨ About the Project
 
-**StudioSpace** connects studio owners with photographers, filmmakers, podcasters, musicians, and other creative professionals looking for flexible spaces to bring their ideas to life.
+StudioSpace brings creative people and creative spaces together. It helps photographers, filmmakers, podcasters, musicians, and other creators discover suitable studios, while giving studio owners a simple way to publish listings and manage reservations.
 
-Customers can explore studios, review facilities and pricing, request bookings, track reservations, and share feedback after eligible bookings. Studio owners can publish and manage listings and handle incoming booking requests.
+The platform provides separate customer and studio-owner experiences, from studio discovery to booking management and post-booking reviews.
 
-## Highlights
+## ⚡ What You Can Do
 
-- **Authentication:** Email/password and Google sign-in powered by Better Auth.
-- **Discover Studios:** Browse and search studio listings, with category and location filters and pricing/rating information.
-- **Studio Listings:** Owners can create, edit, view, and delete their own studio listings.
-- **Studio Details:** Explore studio images, amenities, host information, and specifications.
-- **Booking Management:** Customers can submit requests, view booking history, and cancel pending bookings.
-- **Owner Dashboard:** Studio owners can review and confirm booking requests.
-- **Booking Conflict Protection:** Prevent overlapping confirmed reservations.
-- **Reviews & Ratings:** Eligible customers can review completed bookings; studios display review ratings.
-- **Personalized Experience:** Light and dark themes with saved preferences.
-- **PDF Invoices:** Generate booking invoices for record keeping.
-- **Protected Experiences:** Authentication is required for private account and management features.
-- **Responsive Interface:** Designed for desktop, tablet, and mobile screens.
+<table>
+  <tr>
+    <td width="50%">
+      <h3>🔎 Discover Studios</h3>
+      Search and filter studio listings by category and location. Explore photos, facilities, pricing, and host information.
+    </td>
+    <td width="50%">
+      <h3>🏢 Manage Listings</h3>
+      Studio owners can create, update, view, and remove their own studio listings.
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <h3>📅 Book with Confidence</h3>
+      Customers can request reservations, track bookings, and cancel pending requests.
+    </td>
+    <td width="50%">
+      <h3>📊 Owner Dashboard</h3>
+      Owners can manage incoming booking requests and oversee their studio activity.
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <h3>⭐ Reviews & Ratings</h3>
+      Eligible customers can leave feedback after completed bookings.
+    </td>
+    <td width="50%">
+      <h3>🌗 A Personal Experience</h3>
+      Switch between light and dark themes, with a responsive layout across devices.
+    </td>
+  </tr>
+</table>
 
-## Screens and User Flows
+**More features:** Google and email authentication, protected account areas, booking conflict protection, PDF invoices, loading and empty states, and toast notifications.
 
-| Area | What users can do |
+## 🧭 User Journey
+
+| Customer | Studio Owner |
 |---|---|
-| Home | Explore the platform and discover featured studios |
-| Explore Studios | Search and filter available studio listings |
-| Studio Details | Review photos, amenities, pricing, and host information |
-| Customer Dashboard | View bookings and manage reservations |
-| Owner Dashboard | Manage studio listings and booking requests |
-| Reviews | Share feedback for eligible past bookings |
-| Theme Settings | Switch between light and dark appearance |
+| Create an account or sign in | Create an account or sign in |
+| Explore and filter studios | Publish studio listings |
+| View studio details | Edit and manage listings |
+| Request a booking | Review booking requests |
+| Track or cancel eligible bookings | Manage reservation status |
+| Review completed bookings | Monitor studio activity |
 
-## Technology
+## 🛠️ Tech Stack
 
-| Layer | Technologies |
+| Layer | Tools |
 |---|---|
 | Frontend | Next.js 16, React 19, TypeScript |
 | Styling | Tailwind CSS 4 |
 | Authentication | Better Auth, JWT, HTTPOnly cookies |
+| Backend | Node.js, Express 5, TypeScript |
 | Database | MongoDB Atlas |
-| Backend API | Node.js, Express 5, TypeScript |
-| UI & Feedback | Lucide React, React Icons, Sonner, Swiper |
-| PDF | jsPDF |
-| Frontend Hosting | Vercel |
-| Backend Hosting | Render |
+| UI & Interaction | Lucide React, React Icons, Sonner, Swiper |
+| Documents | jsPDF |
+| Deployment | Vercel (Frontend), Render (Backend) |
 
-## Getting Started
+## 🚀 Run Locally
 
 ### Prerequisites
 
-- Node.js 20 or later
+- Node.js 20+
 - npm
 - MongoDB Atlas database
-- Better Auth configuration
-- Google OAuth credentials (if enabling Google sign-in)
+- Better Auth credentials
+- Google OAuth credentials (for Google sign-in)
 - ImgBB API key (for image uploads)
 
-### 1. Clone the repository
+### 1. Clone
 
 ```bash
 git clone https://github.com/sajidraian/studiospace-client.git
 cd studiospace-client
 ```
 
-### 2. Install dependencies
+### 2. Install
 
 ```bash
 npm install
 ```
 
-### 3. Configure environment variables
+### 3. Configure environment
 
 Create a `.env.local` file in the project root:
 
@@ -106,11 +138,12 @@ GOOGLE_CLIENT_SECRET=your_google_client_secret
 NEXT_PUBLIC_IMGBB_API_KEY=your_imgbb_api_key
 ```
 
-Use your own credentials and make sure the frontend and backend URLs match your local setup. For production, configure the corresponding deployment environment variables in your hosting provider.
+Use credentials from your own services and make sure the frontend and backend URLs match your local configuration.
 
-> **Security:** Never commit `.env.local` or expose database credentials, OAuth secrets, Better Auth secrets, or private API keys. The repository's environment files should contain placeholders only.
+> [!IMPORTANT]
+> Never commit `.env.local` or expose database credentials, OAuth secrets, Better Auth secrets, or private API keys. Keep real credentials in your local environment or hosting-provider settings.
 
-### 4. Run the development server
+### 4. Start the development server
 
 ```bash
 npm run dev
@@ -118,65 +151,64 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-### 5. Build and run the production version locally
+### 5. Create a production build
 
 ```bash
 npm run build
 npm start
 ```
 
-## Available Scripts
+## 📜 Available Scripts
 
-| Command | Description |
+| Command | Purpose |
 |---|---|
-| `npm run dev` | Start the Next.js development server |
-| `npm run build` | Create an optimized production build |
-| `npm start` | Start the production server |
-| `npm run lint` | Run ESLint checks |
+| `npm run dev` | Start the development server |
+| `npm run build` | Generate an optimized production build |
+| `npm start` | Run the production server |
+| `npm run lint` | Check code quality with ESLint |
 
-## Authentication & Security
+## 🔐 Authentication & Security
 
-StudioSpace uses Better Auth for user authentication. The frontend obtains a signed JWT and maintains the backend authentication token in an HTTPOnly cookie. The backend verifies the token using Better Auth's JWKS endpoint before allowing protected operations.
+StudioSpace uses Better Auth for sign-in and session management. A signed JWT is issued for backend authentication and stored in an HTTPOnly cookie. The API verifies tokens using Better Auth's JWKS endpoint before allowing protected operations.
 
-- Private routes and account-specific actions require authentication.
-- Backend requests use credentialed communication with the configured API origin.
-- Studio management actions are restricted to the authenticated owner.
-- Booking actions validate the current user and booking ownership.
+- Protected pages and account-specific actions require authentication.
+- Studio management is restricted to the authenticated owner.
+- Booking operations validate the current user and booking ownership.
 - Booking confirmation checks for overlapping confirmed reservations.
-- Keep all secrets in environment variables and use HTTPS in production.
+- Production communication uses the configured deployment origins and HTTPS.
 
-## Related Links
+## 🌐 Live Links
 
-| Resource | Link |
+| Service | URL |
 |---|---|
-| Live Website | [studiospace-client-one.vercel.app](https://studiospace-client-one.vercel.app/) |
+| **Live Application** | [studiospace-client-one.vercel.app](https://studiospace-client-one.vercel.app/) |
 | Backend API | [studiospace-server-l4bg.onrender.com](https://studiospace-server-l4bg.onrender.com) |
-| Backend Health Check | [API Health](https://studiospace-server-l4bg.onrender.com/api/health) |
-| Frontend Source | [studiospace-client](https://github.com/sajidraian/studiospace-client) |
-| Backend Source | [studiospace-server](https://github.com/sajidraian/studiospace-server) |
+| API Health | [Check API status](https://studiospace-server-l4bg.onrender.com/api/health) |
+| Frontend Repository | [studiospace-client](https://github.com/sajidraian/studiospace-client) |
+| Backend Repository | [studiospace-server](https://github.com/sajidraian/studiospace-server) |
 
-## Demo Accounts for Evaluation
+## 🧪 Evaluation Accounts
 
-Dedicated evaluation accounts are available for demonstrating the customer and studio-owner experiences.
+Use the following accounts to explore the two main user roles. Demo passwords are shared separately with the evaluator and are intentionally not stored in this public repository.
 
 | Account | Email | Role |
 |---|---|---|
 | Customer | `raian@gmail.com` | Customer |
 | Studio Owner | `sajid12@gmail.com` | Studio Owner |
 
-For security, demo passwords are not published in this repository. Share them with the evaluator through a private channel.
+## 📁 Related Repository
 
-## Project Information
-
-- **Project:** StudioSpace
-- **Type:** Peer-to-peer creative workspace and production studio marketplace
-- **Frontend:** Next.js application
-- **Backend:** Express REST API
-- **Database:** MongoDB Atlas
-- **Deployment:** Vercel + Render
+- **Frontend:** [sajidraian/studiospace-client](https://github.com/sajidraian/studiospace-client)
+- **Backend:** [sajidraian/studiospace-server](https://github.com/sajidraian/studiospace-server)
 
 ---
 
-<p align="center">
-  <strong>StudioSpace — Find Your Space. Create Your Story.</strong>
-</p>
+<div align="center">
+
+### ✦ StudioSpace
+
+*Find Your Space. Create Your Story.*
+
+<sub>Built to make finding and managing creative spaces simpler.</sub>
+
+</div>
