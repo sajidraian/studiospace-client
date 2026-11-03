@@ -431,11 +431,10 @@ export default function StudioDetailsPage() {
                 </span>
 
                 <span className="flex items-center gap-1">
-                  <Star
-                    size={17}
-                    className="fill-yellow-400 text-yellow-400"
-                  />
-                  New Listing
+                  <Star size={17} className="fill-yellow-400 text-yellow-400" />
+                  {studio.reviewCount && studio.reviewCount > 0
+                    ? `${Number(studio.rating || 0).toFixed(1)} · ${studio.reviewCount} ${studio.reviewCount === 1 ? "review" : "reviews"}`
+                    : "New · No reviews yet"}
                 </span>
               </div>
             </div>
