@@ -2,6 +2,7 @@
 
 import { authClient } from "@/lib/auth-client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import {
   PlusCircle,
@@ -43,6 +44,7 @@ const inputClass =
   "w-full min-w-0 rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 outline-none transition focus:border-violet-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-500";
 
 export default function AddStudioPage() {
+  const router = useRouter();
   const { data: session, isPending } = authClient.useSession();
 
   const [loading, setLoading] = useState(false);
