@@ -174,7 +174,7 @@ export default function EditStudioPage() {
 
       toast.success("Studio updated successfully!");
 
-      router.push("/dashboard/my-listings");
+      router.push("/my-listings");
       router.refresh();
     } catch (error) {
       console.error(error);
