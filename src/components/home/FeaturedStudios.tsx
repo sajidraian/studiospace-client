@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { MapPin, Users, ArrowRight } from "lucide-react";
+import { MapPin, Users, ArrowRight, Star } from "lucide-react";
 
 interface Studio {
   _id: string;
@@ -13,6 +13,8 @@ interface Studio {
   location: string;
   image: string;
   overview: string;
+  rating?: number;
+  reviewCount?: number;
 }
 
 export default function FeaturedStudios() {
@@ -136,9 +138,24 @@ export default function FeaturedStudios() {
 
                 {/* Studio Information */}
                 <div className="p-4 sm:p-5">
-                  <span className="inline-block max-w-full rounded-full bg-orange-50 px-3 py-1 text-xs font-semibold text-orange-600 dark:bg-orange-500/10 dark:text-orange-400">
-                    {studio.category}
-                  </span>
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <span className="inline-block max-w-full rounded-full bg-orange-50 px-3 py-1 text-xs font-semibold text-orange-600 dark:bg-orange-500/10 dark:text-orange-400">
+                      {studio.category}
+                    </span>
+                    <span
+                      className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-700 dark:bg-amber-500/10 dark:text-amber-300"
+                      aria-label={
+                        studio.reviewCount
+                          ? `${studio.rating ?? 0} out of 5 from ${studio.reviewCount} reviews`
+                          : "No reviews yet"
+                      }
+                    >
+                      <Star size={13} className="fill-current" />
+                      {studio.reviewCount
+                        ? `${Number(studio.rating ?? 0).toFixed(1)} (${studio.reviewCount})`
+                        : "New"}
+                    </span>
+                  </div>
 
                   <h3 className="mt-3 break-words text-lg font-bold text-gray-900 dark:text-white sm:mt-4 sm:text-xl">
                     {studio.title}
