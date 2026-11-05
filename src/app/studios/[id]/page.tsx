@@ -441,104 +441,42 @@ export default function StudioDetailsPage() {
           </div>
         </section>
 
-        {/* Studio Gallery */}
-        <section className="mx-auto max-w-7xl px-4 sm:px-6">
-          <div className="grid grid-cols-1 gap-3 sm:gap-4 md:grid-cols-3">
-            {/* Main Image */}
-            <button
-              type="button"
-              onClick={() => setSelectedImage(studio.image)}
-              className="group relative h-56 overflow-hidden rounded-2xl text-left sm:h-80 md:col-span-2 md:h-[450px]"
-            >
-              <Image
-                src={studio.image}
-                alt={studio.title}
-                fill
-                unoptimized
-                priority
-                sizes="(max-width: 768px) 100vw, 66vw"
-                className="object-cover transition duration-500 group-hover:scale-105"
-              />
-
-              <span className="absolute bottom-3 left-3 rounded-lg bg-black/60 px-3 py-2 text-xs font-semibold text-white sm:bottom-4 sm:left-4 sm:px-4 sm:text-sm">
-                Main Studio Image
-              </span>
-            </button>
-
-            {/* Side Gallery */}
-            <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-1">
-              {galleryImages.slice(0, 2).map((image, index) => (
-                <button
-                  key={`${image}-${index}`}
-                  type="button"
-                  onClick={() => setSelectedImage(image)}
-                  className="group relative h-28 overflow-hidden rounded-xl sm:h-40 md:h-[218px]"
-                >
-                  <Image
-                    src={image}
-                    alt={`${studio.title} gallery ${index + 1}`}
-                    fill
-                    unoptimized
-                    sizes="(max-width: 768px) 50vw, 33vw"
-                    className="object-cover transition duration-500 group-hover:scale-110"
-                  />
-                </button>
-              ))}
-
-              {galleryImages.length === 0 && (
-                <div className="flex h-28 items-center justify-center rounded-xl bg-violet-100 p-3 text-center dark:bg-violet-950 sm:h-40 sm:p-5 md:h-[218px]">
-                  <div>
-                    <Star
-                      size={25}
-                      className="mx-auto mb-2 fill-violet-500 text-violet-500 sm:mb-3 sm:h-[30px] sm:w-[30px]"
-                    />
-
-                    <p className="text-sm font-bold text-violet-800 dark:text-violet-200 sm:text-base">
-                      Creative Space
-                    </p>
-
-                    <p className="mt-1 text-xs text-violet-600 dark:text-violet-300">
-                      Made for your next big idea
-                    </p>
-                  </div>
-                </div>
-              )}
-            </div>
+        {/* Responsive Studio Gallery Carousel */}
+        <section className="mx-auto max-w-7xl px-4 sm:px-6" aria-label="Studio photo gallery">
+          <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth pb-4 sm:gap-4">
+            {[studio.image, ...galleryImages].map((image, index) => (
+              <button
+                key={`${image}-${index}`}
+                type="button"
+                onClick={() => setSelectedImage(image)}
+                aria-label={`Open studio photo ${index + 1}`}
+                className="group relative h-56 min-w-[85%] snap-center overflow-hidden rounded-2xl text-left sm:h-80 sm:min-w-[60%] md:h-[420px] md:min-w-[48%]"
+              >
+                <Image
+                  src={image}
+                  alt={index === 0 ? studio.title : `${studio.title} gallery ${index}`}
+                  fill
+                  unoptimized
+                  priority={index === 0}
+                  sizes="(max-width: 640px) 85vw, (max-width: 1024px) 60vw, 48vw"
+                  className="object-cover transition duration-500 group-hover:scale-105"
+                />
+                {index === 0 && (
+                  <span className="absolute bottom-3 left-3 rounded-lg bg-black/60 px-3 py-2 text-xs font-semibold text-white sm:bottom-4 sm:left-4 sm:px-4 sm:text-sm">
+                    Main Studio Image
+                  </span>
+                )}
+              </button>
+            ))}
           </div>
 
-          {/* Additional Gallery Images */}
-          {galleryImages.length > 2 && (
-            <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-4">
-              {galleryImages.slice(2).map((image, index) => (
-                <button
-                  key={`${image}-${index}`}
-                  type="button"
-                  onClick={() => setSelectedImage(image)}
-                  className="group relative h-28 overflow-hidden rounded-xl sm:h-36 md:h-40"
-                >
-                  <Image
-                    src={image}
-                    alt={`${studio.title} gallery ${index + 3}`}
-                    fill
-                    unoptimized
-                    sizes="(max-width: 768px) 50vw, 25vw"
-                    className="object-cover transition duration-500 group-hover:scale-110"
-                  />
-                </button>
-              ))}
-            </div>
-          )}
-
-          {/* Gallery Count */}
-          {galleryImages.length > 0 && (
-            <div className="mt-4 flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400 sm:text-sm">
-              <Images
-                size={17}
-                className="shrink-0 text-violet-600 dark:text-violet-400"
-              />
+          <div className="mt-1 flex items-center justify-between gap-3 text-xs text-gray-500 dark:text-gray-400 sm:text-sm">
+            <span className="inline-flex items-center gap-2">
+              <Images size={17} className="shrink-0 text-violet-600 dark:text-violet-400" />
               {galleryImages.length + 1} Photos Available
-            </div>
-          )}
+            </span>
+            <span>Swipe or scroll to explore</span>
+          </div>
         </section>
 
         {/* Main Details */}
