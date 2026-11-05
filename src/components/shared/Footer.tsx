@@ -11,10 +11,10 @@ import {
 import { FaXTwitter } from "react-icons/fa6";
 
 const categories = [
-  { name: "Photo Studios", value: "Photography" },
+  { name: "Photo Studios", value: "Photography Studio" },
   { name: "Sound Stages", value: "Sound Stage" },
-  { name: "Podcast Rooms", value: "Podcast" },
-  { name: "Music Suites", value: "Music" },
+  { name: "Podcast Rooms", value: "Podcast Studio" },
+  { name: "Music Suites", value: "Music Studio" },
   { name: "Art Workshops", value: "Art Workshop" },
 ];
 
