@@ -188,11 +188,11 @@ export default function Home() {
 
               <div className="mt-6 space-y-4 sm:mt-8 sm:space-y-5">
                 {[
-                  "Verified host profiles",
-                  "Transparent pricing",
-                  "Equipment and space safety",
-                  "Liability protection guidance",
-                  "24/7 host support",
+                  "Liability Protection",
+                  "Verified Profiles",
+                  "Equipment Safety",
+                  "24/7 Host Support",
+                  "Transparent Pricing",
                 ].map((item) => (
                   <div key={item} className="flex items-center gap-3">
                     <ShieldCheck
