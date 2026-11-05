@@ -189,12 +189,20 @@ await authClient.signIn.social({
 
           {/* Password */}
           <div>
-            <label
-              htmlFor="password"
-              className="mb-2 block text-sm font-semibold text-gray-700"
-            >
-              Password
-            </label>
+            <div className="mb-2 flex items-center justify-between gap-3">
+              <label
+                htmlFor="password"
+                className="block text-sm font-semibold text-gray-700"
+              >
+                Password
+              </label>
+              <Link
+                href="/forgot-password"
+                className="text-xs font-semibold text-[#F97316] hover:underline"
+              >
+                Forgot Password?
+              </Link>
+            </div>
 
             <div className="relative">
               <Lock
