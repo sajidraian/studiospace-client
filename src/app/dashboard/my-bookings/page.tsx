@@ -32,7 +32,7 @@ interface Booking {
   endTime: string;
   guests: number;
   totalPrice: number;
-  status: "Pending" | "Confirmed" | "Cancelled";
+  status: "Pending" | "Confirmed" | "Completed" | "Cancelled";
   notes?: string;
   createdAt: string;
   customerName?: string;
@@ -226,7 +226,7 @@ export default function MyBookingsPage() {
       doc.setFont("helvetica", "normal");
       doc.text("Booking Status:", 20, 222);
 
-      if (booking.status === "Confirmed") {
+      if (booking.status === "Confirmed" || booking.status === "Completed") {
         doc.setTextColor(22, 163, 74);
       } else if (booking.status === "Cancelled") {
         doc.setTextColor(220, 38, 38);
@@ -315,6 +315,9 @@ export default function MyBookingsPage() {
     switch (status) {
       case "Confirmed":
         return "bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300";
+
+      case "Completed":
+        return "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300";
 
       case "Cancelled":
         return "bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300";
@@ -794,6 +797,10 @@ export default function MyBookingsPage() {
                           ) : booking.status === "Confirmed" ? (
                             <span className="inline-flex items-center gap-1.5 rounded-lg bg-green-50 px-3 py-2 text-xs font-semibold text-green-700 dark:bg-green-900/30 dark:text-green-300">
                               <Check size={15} /> Confirmed
+                            </span>
+                          ) : booking.status === "Completed" ? (
+                            <span className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-50 px-3 py-2 text-xs font-semibold text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300">
+                              <CheckCircle2 size={15} /> Completed
                             </span>
                           ) : (
                             <span className="inline-flex items-center gap-1.5 rounded-lg bg-red-50 px-3 py-2 text-xs font-semibold text-red-700 dark:bg-red-900/30 dark:text-red-300">
