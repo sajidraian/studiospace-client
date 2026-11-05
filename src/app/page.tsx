@@ -17,11 +17,11 @@ import {
 import Link from "next/link";
 
 const categories = [
-  { name: "Photo Studios", icon: Camera, count: "120+ Spaces" },
-  { name: "Film Stages", icon: Film, count: "85+ Spaces" },
-  { name: "Podcast Rooms", icon: Mic2, count: "64+ Spaces" },
-  { name: "Music Suites", icon: Music, count: "92+ Spaces" },
-  { name: "Art Workshops", icon: Palette, count: "48+ Spaces" },
+  { name: "Photo Studios", value: "Photography", icon: Camera, count: "120+ Spaces" },
+  { name: "Sound Stages", value: "Sound Stage", icon: Film, count: "85+ Spaces" },
+  { name: "Podcast Rooms", value: "Podcast", icon: Mic2, count: "64+ Spaces" },
+  { name: "Music Suites", value: "Music", icon: Music, count: "92+ Spaces" },
+  { name: "Art Workshops", value: "Art Workshop", icon: Palette, count: "48+ Spaces" },
 ];
 
 const steps = [
@@ -86,7 +86,7 @@ export default function Home() {
 
                 return (
                   <Link
-                    href={`/studios?category=${encodeURIComponent(category.name)}`}
+                    href={`/studios?category=${encodeURIComponent(category.value)}`}
                     key={category.name}
                     aria-label={`Explore ${category.name} - ${category.count}`}
                     className="group rounded-2xl border border-gray-200 bg-white p-5 transition hover:-translate-y-1 hover:border-violet-300 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 sm:p-7 dark:border-gray-800 dark:bg-gray-900 dark:hover:border-violet-500 dark:focus-visible:ring-offset-gray-950"
@@ -191,7 +191,8 @@ export default function Home() {
                   "Verified host profiles",
                   "Transparent pricing",
                   "Equipment and space safety",
-                  "Dedicated creator support",
+                  "Liability protection guidance",
+                  "24/7 host support",
                 ].map((item) => (
                   <div key={item} className="flex items-center gap-3">
                     <ShieldCheck
