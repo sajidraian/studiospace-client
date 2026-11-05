@@ -17,10 +17,10 @@ import {
 import Link from "next/link";
 
 const categories = [
-  { name: "Photo Studios", value: "Photography", icon: Camera, count: "120+ Spaces" },
+  { name: "Photo Studios", value: "Photography Studio", icon: Camera, count: "120+ Spaces" },
   { name: "Sound Stages", value: "Sound Stage", icon: Film, count: "85+ Spaces" },
-  { name: "Podcast Rooms", value: "Podcast", icon: Mic2, count: "64+ Spaces" },
-  { name: "Music Suites", value: "Music", icon: Music, count: "92+ Spaces" },
+  { name: "Podcast Rooms", value: "Podcast Studio", icon: Mic2, count: "64+ Spaces" },
+  { name: "Music Suites", value: "Music Studio", icon: Music, count: "92+ Spaces" },
   { name: "Art Workshops", value: "Art Workshop", icon: Palette, count: "48+ Spaces" },
 ];
 
