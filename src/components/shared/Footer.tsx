@@ -8,6 +8,7 @@ import {
   FaInstagram,
   FaLinkedinIn,
 } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 
 const categories = [
   { name: "Photo Studios", value: "Photography" },
@@ -81,7 +82,7 @@ export default function Footer() {
             <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="text-gray-600 transition hover:text-violet-500 dark:text-gray-400 dark:hover:text-violet-400"><FaFacebookF size={19} /></a>
             <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-gray-600 transition hover:text-violet-500 dark:text-gray-400 dark:hover:text-violet-400"><FaInstagram size={19} /></a>
             <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="text-gray-600 transition hover:text-violet-500 dark:text-gray-400 dark:hover:text-violet-400"><FaLinkedinIn size={19} /></a>
-            <a href="https://x.com/" target="_blank" rel="noopener noreferrer" aria-label="X" className="text-xl font-bold text-gray-600 transition hover:text-violet-500 dark:text-gray-400 dark:hover:text-violet-400">𝕏</a>
+            <a href="https://x.com/" target="_blank" rel="noopener noreferrer" aria-label="X" className="text-gray-600 transition hover:text-violet-500 dark:text-gray-400 dark:hover:text-violet-400"><FaXTwitter size={19} /></a>
           </div>
         </div>
 
