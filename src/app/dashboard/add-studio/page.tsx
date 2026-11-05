@@ -13,9 +13,11 @@ import {
 
 const categories = [
   "Photography Studio",
-  "Video Production Studio",
+  "Sound Stage",
   "Podcast Studio",
   "Music Studio",
+  "Art Workshop",
+  "Video Production Studio",
   "Dance Studio",
   "Event Space",
   "Creative Workspace",
