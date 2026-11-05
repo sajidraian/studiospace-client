@@ -462,7 +462,8 @@ export default function AddStudioPage() {
       }
 
       toast.success("Studio added successfully!");
-      resetForm();
+      router.push("/my-listings");
+      router.refresh();
     } catch (error) {
       console.error("Add Studio Error:", error);
 
